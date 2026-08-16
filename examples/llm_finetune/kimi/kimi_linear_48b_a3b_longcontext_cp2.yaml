@@ -80,7 +80,7 @@ checkpoint:
 distributed:
   strategy: fsdp2
   tp_size: 1
-  cp_size: 2                 # 32k tokens -> 16k per rank
+  cp_size: 8                 # CP8 CI probe: 32k tokens -> 4k per rank
   pp_size: 1
   ep_size: 8                 # EP and CP overlap on the device mesh
   sequence_parallel: false
