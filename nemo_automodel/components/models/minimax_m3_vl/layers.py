@@ -552,19 +552,15 @@ class Block(nn.Module):
                 f"MiniMax M3 sparse layer {layer_idx} has disable_index_value=0 (index value/output "
                 "projections), which is not supported (only the selection-only indexer is implemented)."
             )
-        if is_sparse_attention_layer:
-            # Sparse layers use the CP-aware attention so context parallelism can
-            # rebuild a correct global-sequence block-sparse mask (FlexAttention).
-            # It delegates to the plain sparse forward when CP is off (_cp_mesh
-            # is None/size 1), so this is a no-op for non-CP runs. Lazy import
-            # breaks the layers <-> cp_sparse_attn import cycle.
-            from nemo_automodel.components.models.minimax_m3_vl.cp_sparse_attn import MiniMaxM3CPSparseAttention
+        # Every layer uses the CP-aware subclass. Sparse layers always rebuild DSA
+        # selection globally under CP; dense layers use gathered K/V only for packed
+        # CP so document boundaries remain block-diagonal. Other paths delegate to
+        # the ordinary implementation. Lazy import breaks the module cycle.
+        from nemo_automodel.components.models.minimax_m3_vl.cp_sparse_attn import MiniMaxM3CPSparseAttention
 
-            self.self_attn = MiniMaxM3CPSparseAttention(
-                config, backend, is_sparse_attention_layer=is_sparse_attention_layer
-            )
-        else:
-            self.self_attn = MiniMaxM3Attention(config, backend, is_sparse_attention_layer=is_sparse_attention_layer)
+        self.self_attn = MiniMaxM3CPSparseAttention(
+            config, backend, is_sparse_attention_layer=is_sparse_attention_layer
+        )
 
         moe_layer_freq = getattr(config, "moe_layer_freq", None)
         self.is_moe_layer = True if moe_layer_freq is None else moe_layer_freq[layer_idx] != 0

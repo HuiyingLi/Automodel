@@ -392,11 +392,14 @@ class MiniMaxM3SparseForConditionalGeneration(HFCheckpointingMixin, nn.Module, M
     _keep_in_fp32_modules_strict = ["mlp.gate.e_score_correction_bias"]
     _pp_keep_self_forward: bool = True
     mtp_outputs_are_logits = True
-    # Opt into context parallelism on the SDPA attention backend (M3's block-sparse DSA
-    # bias is an explicit additive mask that only SDPA accepts, not TE). Dense layers use
-    # the standard CP path (mask-strip hook + is_causal); sparse layers require the
-    # CP-aware indexer attention for a correct global-sequence bias.
+    # Opt into context parallelism on the SDPA attention backend. Sparse layers own
+    # gathered-K/V CP; dense layers use that path for packed batches and retain the
+    # existing SDPA CP path otherwise.
     _supports_cp_sdpa = True
+    # Packed CP is model-owned on SDPA: every dense/sparse decoder layer gathers
+    # global K/V and reconstructs causal per-document masking from position_ids.
+    _owns_packed_attention = True
+    _packed_cp_attn_backends = ("sdpa",)
     # The state-dict adapter fully populates every tensor from the checkpoint
     # (MXFP8 -> bf16), so skip HF random init on load. This also avoids the
     # stage-divergent DTensor collectives in initialize_weights() under sharding/PP.

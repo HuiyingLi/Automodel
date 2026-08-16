@@ -24,6 +24,7 @@ group.
 
 import torch
 
+from nemo_automodel._transformers.capabilities import ModelSupports
 from nemo_automodel.components.models.minimax_m3_vl.cp_sparse_attn import cp_document_ids
 
 
@@ -79,3 +80,19 @@ def test_multi_batch_independent_docids():
     pos = torch.tensor([[0, 1, 0, 1], [0, 1, 2, 3]])  # batch row 0 packed (2 docs), row 1 single
     doc = cp_document_ids(pos)
     assert doc.tolist() == [[0, 0, 1, 1], [0, 0, 0, 0]]
+
+
+def test_minimax_packed_cp_capability_covers_every_decoder_layer(vlm_model):
+    """The packed-CP opt-in is valid only when dense and sparse layers own CP."""
+    from types import SimpleNamespace
+
+    from nemo_automodel.components.models.minimax_m3_vl.cp_sparse_attn import MiniMaxM3CPSparseAttention
+
+    supports = ModelSupports(vlm_model, SimpleNamespace(cp_size=2))
+    assert supports.supports_cp_with_sequence_packing is True
+
+    attentions = [layer.self_attn for layer in vlm_model.model.layers.values()]
+    assert attentions
+    assert all(isinstance(attn, MiniMaxM3CPSparseAttention) for attn in attentions)
+    assert any(attn.indexer is None for attn in attentions)  # dense layers
+    assert any(attn.indexer is not None for attn in attentions)  # sparse layers

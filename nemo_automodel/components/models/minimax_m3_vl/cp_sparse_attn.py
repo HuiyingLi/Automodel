@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Context-parallel support for MiniMax M3 block-sparse DSA attention.
+"""Context-parallel support for MiniMax M3 dense and block-sparse attention.
 
 Under context parallelism the sequence is sharded across CP ranks with a
 *load-balanced* layout (PyTorch's causal CP splits the sequence into
@@ -21,6 +21,8 @@ so a rank's local positions are **not** a contiguous global span. The M3
 lightning indexer builds its block-sparse mask from index q/k over the *global*
 causal sequence, so a CP-aware sparse layer must gather the indexer inputs from
 every rank and reorder them into global token order before selecting blocks.
+Packed CP also needs the dense layers to gather K/V so they can preserve
+block-diagonal document boundaries after the recipe strips the global mask.
 
 This module holds the reorder primitives shared by the CP-aware attention. The
 reorder math (``order_by_positions`` / ``restore_by_positions``) is factored out
@@ -217,13 +219,13 @@ def cp_load_balanced_global_slots(
 
 
 class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
-    """Context-parallel-aware drop-in for a MiniMax M3 sparse-attention layer.
+    """Context-parallel-aware drop-in for a MiniMax M3 attention layer.
 
     Inherits every parameter and the eager forward from ``MiniMaxM3Attention``.
     The only addition is ``_cp_mesh``, installed post-FSDP via
     :meth:`setup_cp_attention` (called by the MoE parallelizer's ``apply_cp``).
     When CP is off (``_cp_mesh`` is None / size 1) it delegates to the parent's
-    eager sparse forward, so non-CP runs are unaffected.
+    eager forward, so non-CP runs are unaffected.
 
     Under CP (``cp_size > 1``) the sequence is sharded across ranks, so the DSA
     block selection -- which is causal over the *global* sequence -- cannot be
@@ -236,14 +238,17 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
          across the CP group, then reorders them into global token order
          (load-balanced CP sharding is non-contiguous -- see
          :func:`order_by_positions`);
-      3. selects the top-k key blocks for the *local* queries against the global
-         key sequence (:func:`select_sparse_blocks`);
+      3. for sparse layers, selects the top-k key blocks for the *local* queries
+         against the global key sequence (:func:`select_sparse_blocks`);
       4. attends with FlexAttention over a ``BlockMask`` that encodes the block
-         selection + token-level causal, with the local queries against the full
-         gathered K/V (``enable_gqa=True``). FlexAttention has a real backward,
-         so the gathered K/V gradients flow back to the local shards.
+         selection (sparse layers), token-level causal, padding, and packed
+         document boundaries, with the local queries against the full gathered
+         K/V (``enable_gqa=True``). FlexAttention has a real backward, so the
+         gathered K/V gradients flow back to the local shards.
 
-    Dense layers (0-2) are untouched; they use the standard DTensor-SDPA CP path.
+    Dense layers use the same gathered-K/V path without block selection. This is
+    required for packed CP: ordinary causal DTensor-SDPA cannot keep independent
+    packed documents block-diagonal after the recipe strips the global mask.
     """
 
     _cp_mesh: Any
@@ -255,7 +260,7 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
     def setup_cp_attention(self, cp_mesh: Any) -> None:
         """Install the CP submesh consumed by :meth:`_cp_forward` (model-owned CP).
 
-        Called post-FSDP by the MoE parallelizer's ``apply_cp`` for each sparse
+        Called post-FSDP by the MoE parallelizer's ``apply_cp`` for each attention
         layer. Routing M3 through this hook -- rather than having ``apply_cp`` set
         ``_cp_mesh`` directly -- keeps it on the same model-owned CP path as the
         other custom-attention models (Gemma4, DeepSeek-V4).
@@ -271,13 +276,14 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
         **attn_kwargs: Any,
     ) -> torch.Tensor:
         cp_mesh = self._cp_mesh
-        if cp_mesh is None or cp_mesh.size() <= 1 or self.indexer is None:
+        packed = attn_kwargs.get("seq_lens") is not None
+        if cp_mesh is None or cp_mesh.size() <= 1 or (self.indexer is None and not packed):
             return super().forward(x, freqs_cis=freqs_cis, attention_mask=attention_mask, **attn_kwargs)
         return self._cp_forward(x, freqs_cis=freqs_cis, **attn_kwargs)
 
     def _cp_forward(self, x: torch.Tensor, *, freqs_cis: torch.Tensor, **attn_kwargs: Any) -> torch.Tensor:
         if x.dim() != 3:
-            raise NotImplementedError("MiniMax M3 CP sparse attention supports bshd (3-D) input only.")
+            raise NotImplementedError("MiniMax M3 CP attention supports bshd (3-D) input only.")
         bsz, t_local, _ = x.shape
         cp_group = self._cp_mesh.get_group()
         cp_size = self._cp_mesh.size()
@@ -344,27 +350,31 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
             doc_global = cp_document_ids(pos_global)  # [B, T_global]
             q_doc = doc_global.index_select(1, q_slots)  # [B, t_local]
 
-        # 3. block selection: local queries vs the global key sequence (no grad).
-        with torch.no_grad():
+        # 3. Sparse layers select blocks for local queries against the global key
+        # sequence. Dense layers leave block_sel=None and attend the full causal,
+        # same-document K/V prefix in step 4.
+        block_sel = None
+        if self.indexer is not None:
             idxer = self.indexer
-            idx_q = idxer.index_q_norm(
-                idxer.index_q_proj(x).view(bsz, t_local, idxer.num_index_heads, idxer.index_head_dim)
-            )
-            idx_k = idxer.index_k_norm(idxer.index_k_proj(x).view(bsz, t_local, 1, idxer.index_head_dim))
-            idx_q, idx_k = apply_rotary_emb_qk(
-                idx_q, idx_k, freqs_cis, format="bshd", rope_fusion=idxer.backend.rope_fusion
-            )
-            idx_k_g = _all_gather_concat_nograd(idx_k, cp_group, dim=1).index_select(1, sort_order)  # [B,T_global,1,D]
-            block_sel = select_sparse_blocks(
-                idx_q,
-                idx_k_g,
-                block_size=idxer.block_size,
-                topk_blocks=idxer.topk_blocks,
-                init_blocks=idxer.init_blocks,
-                local_blocks=idxer.local_blocks,
-                score_type=idxer.score_type,
-                q_positions=q_slots,
-            )  # [B, H_idx, T_local, num_blocks]
+            with torch.no_grad():
+                idx_q = idxer.index_q_norm(
+                    idxer.index_q_proj(x).view(bsz, t_local, idxer.num_index_heads, idxer.index_head_dim)
+                )
+                idx_k = idxer.index_k_norm(idxer.index_k_proj(x).view(bsz, t_local, 1, idxer.index_head_dim))
+                idx_q, idx_k = apply_rotary_emb_qk(
+                    idx_q, idx_k, freqs_cis, format="bshd", rope_fusion=idxer.backend.rope_fusion
+                )
+                idx_k_g = _all_gather_concat_nograd(idx_k, cp_group, dim=1).index_select(1, sort_order)
+                block_sel = select_sparse_blocks(
+                    idx_q,
+                    idx_k_g,
+                    block_size=idxer.block_size,
+                    topk_blocks=idxer.topk_blocks,
+                    init_blocks=idxer.init_blocks,
+                    local_blocks=idxer.local_blocks,
+                    score_type=idxer.score_type,
+                    q_positions=q_slots,
+                )  # [B, H_idx, T_local, num_blocks]
 
         # 4. FlexAttention over the block-sparse mask (local queries x global K/V).
         out = self._flex_sparse_attention(
@@ -385,7 +395,7 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
         k_global: torch.Tensor,
         v_global: torch.Tensor,
         *,
-        block_sel: torch.Tensor,
+        block_sel: torch.Tensor | None,
         q_positions: torch.Tensor,
         key_valid: torch.Tensor | None = None,
         doc_global: torch.Tensor | None = None,
@@ -395,9 +405,12 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
 
         bsz, t_local = q.shape[0], q.shape[1]
         t_global = k_global.shape[1]
-        block_size = self.indexer.block_size
+        # Dense layers have no indexer but FlexAttention still needs a block size
+        # for constructing the causal/document mask. The production sparse block
+        # size is 128, which is also a valid efficient dense-mask tile.
+        block_size = self.indexer.block_size if self.indexer is not None else 128
         # GQA: each idx-head governs ``rep`` main heads (mirrors the eager builder).
-        rep = self.num_heads // self.indexer.num_index_heads
+        rep = self.num_heads // self.indexer.num_index_heads if self.indexer is not None else 1
 
         qh = q.transpose(1, 2).contiguous()  # [B, num_heads, T_local, D]
         kh = k_global.transpose(1, 2).contiguous()  # [B, n_kv, T_global, D]
@@ -408,8 +421,10 @@ class MiniMaxM3CPSparseAttention(MiniMaxM3Attention):
         # ``is not None`` checks are resolved at trace time, so the compiled mask only
         # includes the active terms.
         def cp_sparse_mask(b, h, q_idx, kv_idx):
-            h_idx = h // rep
-            keep = (kv_idx <= q_positions[q_idx]) & block_sel[b, h_idx, q_idx, kv_idx // block_size]
+            keep = kv_idx <= q_positions[q_idx]
+            if block_sel is not None:
+                h_idx = h // rep
+                keep = keep & block_sel[b, h_idx, q_idx, kv_idx // block_size]
             if key_valid is not None:
                 keep = keep & key_valid[b, kv_idx]
             if doc_global is not None:
