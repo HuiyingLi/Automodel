@@ -17,8 +17,10 @@ from typing import Any
 
 import torch
 from torch import nn
+from torch.distributed.device_mesh import DeviceMesh
 from transformers.models.qwen3_moe.configuration_qwen3_moe import Qwen3MoeConfig
 
+from nemo_automodel.components.attention.flashmask_attention import FlashMaskAttention
 from nemo_automodel.components.attention.utils import (
     initialize_attn_module_and_func,
     postprocess_output_for_attn,
@@ -107,6 +109,17 @@ class Qwen3MoeAttention(nn.Module):
                     "backend.compile_attn=True: torch.compile(fullgraph=True) the Qwen3-MoE attention (attn=sdpa)."
                 )
                 self._compiled_forward = torch.compile(self._forward_impl, fullgraph=True, dynamic=False)
+
+    def setup_cp_attention(self, cp_mesh: DeviceMesh) -> None:
+        """Bind FlashMask to the CP group used by the native head-tail sharder.
+
+        Args:
+            cp_mesh: One-dimensional context-parallel device mesh.
+        """
+        if isinstance(self.attn_module, FlashMaskAttention):
+            if self.num_heads % cp_mesh.size() or self.num_kv_heads % cp_mesh.size():
+                raise ValueError("FlashMask Ulysses CP must divide Qwen's query and KV head counts")
+            self.attn_module.cp_group = cp_mesh.get_group()
 
     def forward(
         self,

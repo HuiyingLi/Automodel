@@ -18,6 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from nemo_automodel.components.attention.flashmask_attention import FlashMaskAttention
 from nemo_automodel.components.attention.flex_attention import FlexAttention
 from nemo_automodel.shared.import_utils import safe_import
 
@@ -87,6 +88,13 @@ def initialize_attn_module_and_func(
             )
 
         return None, attn_func
+    elif attn_impl == "flashmask":
+        if qkv_format != "bshd" or attn_mask_type not in ("causal", "no_mask"):
+            raise ValueError("FlashMask requires BSHD with causal or no_mask attention")
+        if kwargs:
+            raise TypeError(f"Unsupported FlashMask construction options: {sorted(kwargs)}")
+        attn_module = FlashMaskAttention(softmax_scale=softmax_scale, causal=attn_mask_type == "causal")
+        return attn_module, attn_module.__call__
     elif attn_impl == "fa4":
         # FlashAttention-4 (CuTe). BSHD inputs stay in [b, s, nh, hd] layout;
         # packing gathers them to [t, nh, hd] internally, without transposing heads. FA4 has no
@@ -361,6 +369,19 @@ def preprocess_args_and_kwargs_for_attn(
             if "max_seqlen_kv" in kwargs:
                 attn_kwargs["max_seqlen_kv"] = kwargs["max_seqlen_kv"]
 
+    elif attn_impl == "flashmask":
+        if attention_mask is not None:
+            raise ValueError("FlashMask uses startend_row_indices, not a dense or padding attention_mask")
+        if q.ndim != 4 or any(
+            kwargs.get(key) is not None
+            for key in ("cu_seqlens", "cu_seqlens_q", "cu_seqlens_kv", "packed_token_indices")
+        ):
+            raise ValueError("FlashMask requires unpacked BSHD; packed varlen metadata is unsupported")
+        if kwargs.get("window_size", (-1, 0)) not in ((-1, 0), (-1, -1), (None, None)):
+            raise ValueError("Use a FlashMask column mask for sliding-window attention")
+        attn_kwargs = {}
+        if kwargs.get("startend_row_indices") is not None:
+            attn_kwargs["startend_row_indices"] = kwargs["startend_row_indices"]
     elif attn_impl == "fa4":
         if q.ndim != 4 or kwargs.get("qkv_format") == "thd" or kwargs.get("cu_seqlens_padded") is not None:
             raise ValueError("attn_impl='fa4' requires BSHD inputs; pre-packed THD is unsupported. Use NEAT packing.")

@@ -409,7 +409,7 @@ class MoKBackendConfig:
         )
 
 
-AttentionBackend = Literal["torch", "te", "sdpa", "flex", "eager", "tilelang", "cudnn", "fa4", "magi"]
+AttentionBackend = Literal["torch", "te", "sdpa", "flex", "eager", "tilelang", "cudnn", "fa4", "magi", "flashmask"]
 
 
 @dataclass(kw_only=True)
@@ -417,7 +417,7 @@ class BackendConfig:
     """Backend configuration for model components.
 
     Attributes:
-        attn: Attention backend ("torch", "te", "sdpa", "flex", "eager", "tilelang", "cudnn", "fa4", or "magi").
+        attn: Attention backend ("torch", "te", "sdpa", "flex", "eager", "tilelang", "cudnn", "fa4", "magi", or "flashmask").
             "fa4" selects native FlashAttention-4 (CuTe) and requires an
             INSTALL_FA4=true image. HF-dispatched models use "flash_attention_4". A rank-2 binary
             padding mask is converted to varlen metadata, while dense/block masks and indexed

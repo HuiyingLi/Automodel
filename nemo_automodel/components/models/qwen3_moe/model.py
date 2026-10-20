@@ -290,6 +290,7 @@ class Qwen3MoeForCausalLM(HFCheckpointingMixin, nn.Module, MoEFSDPSyncMixin):
         self.config = config
         reject_unsupported_tie_word_embeddings(type(self), config)
         self.backend = backend or BackendConfig()
+        self._owns_cp_attention = self.backend.attn == "flashmask"
         moe_overrides = kwargs.pop("moe_overrides", None)
         self.model = Qwen3MoeModel(config, backend=self.backend, moe_config=moe_config, moe_overrides=moe_overrides)
         model_dtype = get_dtype(getattr(config, "torch_dtype", None), torch.bfloat16)

@@ -866,6 +866,13 @@ def apply_model_infrastructure(
         )
 
         model_parts = model.parts if hasattr(model, "parts") else [model]
+        if mesh.cp_size > 1:
+            from nemo_automodel.components.attention.flashmask_attention import FlashMaskAttention
+
+            for mp in model_parts:
+                for attention in mp.modules():
+                    if isinstance(attention, FlashMaskAttention):
+                        attention.cp_group = mesh.device_mesh["cp"].get_group()
         if uses_te_attention:
             cp_mesh = mesh.device_mesh["cp"] if mesh.cp_size > 1 else None
             tp_mesh = mesh.device_mesh["tp"] if mesh.tp_size > 1 else None
