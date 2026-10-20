@@ -1,0 +1,49 @@
+{
+  "source": "runs/hsg/overlap/flashmask_overlap_cp2_s8192_eager.json",
+  "sha256": "62dc40b66f35a5ad10d1553e5e16d71f687d79419c5a6d358ecb127f6d715ef1",
+  "metadata": {
+    "backend": "flashmask_overlap",
+    "cp": 2,
+    "gpu": "NVIDIA GB200",
+    "torch": "2.14.0a0+4fdf77b940.nv26.08",
+    "cuda": "13.4",
+    "nccl": "nccl",
+    "source_sha": "b4a907ffe70267078fba4f8af1d823c9b552b752",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+    "seed": 4397,
+    "dtype": "bfloat16",
+    "batch": 1,
+    "model": "Qwen/Qwen3-30B-A3B",
+    "q_heads": 32,
+    "kv_heads": 4,
+    "head_dim": 128,
+    "synthetic_weights": true,
+    "packing": false,
+    "execution": [
+      "eager"
+    ],
+    "cp_algorithm": "upstream_nccl_gin_overlap",
+    "packages": {
+      "transformers": "5.15.1",
+      "transformer-engine": "2.19.0",
+      "nvidia-cutlass-dsl": "4.5.2",
+      "flash-attn-4": "4.0.0b29",
+      "magi_attention": "0.0.0"
+    },
+    "magi_kernel_backend": "ffa",
+    "flashmask_source_sha": "5b1d0dcafd2d12e1b7df665223530fcbe140c270",
+    "flashmask_source_diff_sha256": "5ce7d8f6e5bdcc1976bfc6e968d4853522e2e588d84f63933d0115378d45b601"
+  },
+  "timing_ms": {
+    "forward": 1.6761280298233032,
+    "forward_backward": 3.9839038848876953
+  },
+  "worst_relative_rms": 0.0046179997734725475,
+  "graph_status": "failed: invalid stream capture in upstream overlap orchestration",
+  "unsupported_cases": {
+    "global4k_cp2": "local sequence 2048",
+    "global4k_cp4": "local sequence 1024",
+    "global8k_cp4": "local sequence 2048"
+  }
+}

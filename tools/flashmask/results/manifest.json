@@ -1,0 +1,1946 @@
+[
+  {
+    "file": "runs/matrix/fa3_cp1_eager.json",
+    "sha256": "04903a39c866bca357c23eca4ad4281b18b1f04a63ef5bd30ffe9725eb1a6ea3",
+    "metadata": {
+      "backend": "fa3",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/fa3_cp1_graph.json",
+    "sha256": "2a5b98fac86ee1be2585e099e8dcfe89d12f51dbd3a099e8f562ddc686e3cdab",
+    "metadata": {
+      "backend": "fa3",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/fa4_cp1_eager.json",
+    "sha256": "194fcd5042aa40974529bcc243d8afa5c1d531e8465b80a5305b7c55f863481a",
+    "metadata": {
+      "backend": "fa4",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/fa4_cp1_graph.json",
+    "sha256": "e49840ae407c26785f02dbe6ffa4305caa51102852e9dd440d05faf82dd5e9f7",
+    "metadata": {
+      "backend": "fa4",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp1_eager.json",
+    "sha256": "fbd175654380a037428a609491430e413f74f35a6f7d4efc6594b3fa72629677",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp1_graph.json",
+    "sha256": "0e603fa9955a7e90d34d06f03213b93c3b97c48fbf772a24afe7f4f2fc4c1c15",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp2_eager.json",
+    "sha256": "442b89a136d98fbbc56568ed3a67fbe721816f76563584d6b973f213534c5a6e",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp2_graph.json",
+    "sha256": "98f60f16145e0f4c5ce0c77cdab93e74fca8939dacb8e499e35b2cb34a42cfea",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp4_eager.json",
+    "sha256": "7dc1daaf95b32c193701a93287bb7cf2820dc9694d6dc94035ac98192614e2d5",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/flashmask_cp4_graph.json",
+    "sha256": "58044b26536d7bf529374c6f2f4219341f2dcabf84c5f2e6ef8369065bd8d5aa",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e9bdc7a59438860d60db76b7a0d8a02613ea7611a2515d44d87ecadf7b71aca5",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp1_eager.json",
+    "sha256": "0c1e25f7ded10f613e419376a874a7fef580dcfcd59db784890434059253a0d9",
+    "metadata": {
+      "backend": "magi",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp1_graph.json",
+    "sha256": "928fdb2d979f4385c727eb8844ff0da639f05b3bf44c43d4c800c9a19d1324b5",
+    "metadata": {
+      "backend": "magi",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp2_eager.json",
+    "sha256": "5e388cba04062c2f3eba03352d641e2be1c63b3fec38e81a2c7a370219c1e796",
+    "metadata": {
+      "backend": "magi",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp2_graph.json",
+    "sha256": "64b179470c63a61a88c6a5a7b061918da23616800c171f905ffe819c9ae6bda0",
+    "metadata": {
+      "backend": "magi",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp4_eager.json",
+    "sha256": "5d168c4c8302e1ff926f439433c43f32d9a8f8c8508230a99b0a025241939ac1",
+    "metadata": {
+      "backend": "magi",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "1f7da32eb8be6b4666c0e5c9d061d97e0cc4de5057a60db1277f76bdaaff8b74",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/magi_cp4_graph.json",
+    "sha256": "923ec6fbb80783dac334219689a61e084a5ae73e07e9e186a8a16b1b62a98896",
+    "metadata": {
+      "backend": "magi",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "1f7da32eb8be6b4666c0e5c9d061d97e0cc4de5057a60db1277f76bdaaff8b74",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp1_eager.json",
+    "sha256": "242f20ce6f430449ad011d1489860dedd3083fa5bab3b506fe920caf90dcf2bc",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp1_graph.json",
+    "sha256": "9acccfb8998a59c6c3778a6dfb759307c27913e664f8b2c71000713482f21af7",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp2_eager.json",
+    "sha256": "74ae31a37936fd81ae16b553acbffcbb0d0fe0a3b32a093406f0f40322394db8",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp2_graph.json",
+    "sha256": "ee3cd19a59b62de509efc9040a34f62ef62c305dbc832fd15b4f3e77d94c73bf",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp4_eager.json",
+    "sha256": "2b5dd1a85ccfd2f847c61f81bc9462bc5aec590a747c0bab6418f4c7b806d2c6",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "25a8fa957d7edab53b02d6e814c9ba2c66a38a4ed0cf2aab54e9b72aa65bf36a",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/sdpa_cp4_graph.json",
+    "sha256": "28a1090d149011893bfc3c6129c6f0cfb253e1424ff88714c3bb87091ba0c92f",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "25a8fa957d7edab53b02d6e814c9ba2c66a38a4ed0cf2aab54e9b72aa65bf36a",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp1_eager.json",
+    "sha256": "5095385df428ae5f21eeb5a3ae28faf26f117ec32f0c01afc5824e0f073817e6",
+    "metadata": {
+      "backend": "te",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp1_graph.json",
+    "sha256": "b6aaa424cf2e059c597564daba381a890cf577e40d319373b37b27861d6224c9",
+    "metadata": {
+      "backend": "te",
+      "cp": 1,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp2_eager.json",
+    "sha256": "1cf00b1a226ed71149c9322ba3bb3207b10dc7944d0dabc696860e95c1b5e849",
+    "metadata": {
+      "backend": "te",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp2_graph.json",
+    "sha256": "563dcc5e5f36416e346e15d14bc417c86291629a460ad28712b0a9a0b52cc83f",
+    "metadata": {
+      "backend": "te",
+      "cp": 2,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "c02ffab30d192d5d43b5f8dc2405f7f42627c14f64c19f88cfab3a642fe92511",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp4_eager.json",
+    "sha256": "69d717044e8c765068ad74e399eea7dd15f7604b52b1c24e6599b90addad680c",
+    "metadata": {
+      "backend": "te",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "e9bdc7a59438860d60db76b7a0d8a02613ea7611a2515d44d87ecadf7b71aca5",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/matrix/te_cp4_graph.json",
+    "sha256": "f93b0afafc31dc60ec44f9a9d336378aa7b8bcf7c0a4dc107b14abeab5d70528",
+    "metadata": {
+      "backend": "te",
+      "cp": 4,
+      "gpu": "NVIDIA H100 80GB HBM3",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "1f7da32eb8be6b4666c0e5c9d061d97e0cc4de5057a60db1277f76bdaaff8b74",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "ffa"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/fa4_cp1_eager.json",
+    "sha256": "4292843a70316d06b95240871bebd0d6c3cf595cbfa181cacf5ae722a7b203d5",
+    "metadata": {
+      "backend": "fa4",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/fa4_cp1_graph.json",
+    "sha256": "ff2013ca0bd29d1479b38a2649038d4537776634a9500a16d7f7085f7e665872",
+    "metadata": {
+      "backend": "fa4",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp1_eager.json",
+    "sha256": "b004a33884356985d4190d7d3b8284990f1c1e2a36a8447e35e22018ed3ab5a4",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp1_graph.json",
+    "sha256": "e2408bedc0df4d4e977bef1abe97ce7823c4a039f59beec581b390c8eb2efdaa",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp2_eager.json",
+    "sha256": "5232b9a12a5b5e48650de1b4ae9955192146b5f9917faea7e28c3ac6f96bf1df",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "b4ffbab10d1eb250b69a6ba0694f5af2d269ef655f439d3939af43b7ee2cf1ee",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp2_graph.json",
+    "sha256": "1c94f4222223b27e21a0f196fb4306e2cd67059b9b3a16547129e22037371302",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "782ea2130afb98762b280ef027d5f77f5f3740e65f02c2fe4eb7c41b753689a6",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp4_eager.json",
+    "sha256": "bbf632242a16935f3f8f6679dd764c932b1db1af2533db14d9bd67ada5bc3906",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "b3078fdea3fc88aee4d0e1ada3f73a6ba148fc7b06b50a5cbbd5dcd6dcfe6837",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/flashmask_cp4_graph.json",
+    "sha256": "cb404ab03fc1d9b755013d8dad4f09a59ba1b790098fd0341b4ecb2e12325f31",
+    "metadata": {
+      "backend": "flashmask",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "782ea2130afb98762b280ef027d5f77f5f3740e65f02c2fe4eb7c41b753689a6",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_fm/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "ulysses",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.5.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp1_eager.json",
+    "sha256": "3a620a4ef7e797db6e99874480cdf1e843f029f23952d246a05e88e526ff6b87",
+    "metadata": {
+      "backend": "magi",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp1_graph.json",
+    "sha256": "eb79e6c0f8f4c5a829b298aac02993e0ed2c21f10aa0fd64af40db8fb8265cf3",
+    "metadata": {
+      "backend": "magi",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp2_eager.json",
+    "sha256": "075a3cd5a96a414e806305b61732162e2042a75de9cdadf22e7d9aeba01ee10e",
+    "metadata": {
+      "backend": "magi",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp2_graph.json",
+    "sha256": "3af31e3b8fd7bf85fa014370b391d73c85355b202e7eb61e693d3715c869cce8",
+    "metadata": {
+      "backend": "magi",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp4_eager.json",
+    "sha256": "19dd53cf0f956a5267b220c1feba360fce77608bf4051c72efce005d31a66884",
+    "metadata": {
+      "backend": "magi",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "ba161cac5d455c9eaca53d1c8b349bd1ee841cbc",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/magi_cp4_graph.json",
+    "sha256": "4b567c6d6b69e1c03c0c8c5841aa3b17a9336937e3d3bc90b21b8cfa9d996861",
+    "metadata": {
+      "backend": "magi",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "b4a907ffe70267078fba4f8af1d823c9b552b752",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/venv_magi/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "magi",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.4.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp1_eager.json",
+    "sha256": "e89fb31717134d25abd99783a67630b665d56e3e7cfd524ef75c67befdb8ebf5",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp1_graph.json",
+    "sha256": "28ea3ef22f0a61bb7a507d167a32853b0ab05364e5ddf2c077fd4c545cd009ef",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp2_eager.json",
+    "sha256": "fe1cc512b94bc4270f4f5a54cecf2699c4f681313edff53e14e06826abfd4e6e",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "b3078fdea3fc88aee4d0e1ada3f73a6ba148fc7b06b50a5cbbd5dcd6dcfe6837",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp2_graph.json",
+    "sha256": "999e01229bc749c622d9eeed130c8baba7139a9ef88efb172a0ffd64baeb08a9",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "b3078fdea3fc88aee4d0e1ada3f73a6ba148fc7b06b50a5cbbd5dcd6dcfe6837",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp4_eager.json",
+    "sha256": "4b0ba1086f46c9b28ea88b2db747484ee8278984809c61d65205c8cd833e1a46",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "b4a907ffe70267078fba4f8af1d823c9b552b752",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/sdpa_cp4_graph.json",
+    "sha256": "a40d5a43722bf62a53140b04bf177a035b7c25cc0bdf140130879ee4137333a4",
+    "metadata": {
+      "backend": "sdpa",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "782ea2130afb98762b280ef027d5f77f5f3740e65f02c2fe4eb7c41b753689a6",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "torch_ring",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp1_eager.json",
+    "sha256": "f625ef2781baf221b1d07de17d648a57154767a372cc6c6a05c25938161d4940",
+    "metadata": {
+      "backend": "te",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp1_graph.json",
+    "sha256": "a43b62d6184ec6565740b8944c8e438de9b7894b36e21eaa2bee4f9d447c8a26",
+    "metadata": {
+      "backend": "te",
+      "cp": 1,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "94a970aadf2d2d465234b5f9f56410374e72b941",
+      "source_diff_sha256": "befdd1c7f1fa681623ad097aee8ed67ed29f49afefc961e252d6ac6bad83f5ed",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "none",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp2_eager.json",
+    "sha256": "4c96f67ce1975eb73866807d69c80cea0fb210734c0a518f9653d0831462d9b9",
+    "metadata": {
+      "backend": "te",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "b3078fdea3fc88aee4d0e1ada3f73a6ba148fc7b06b50a5cbbd5dcd6dcfe6837",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp2_graph.json",
+    "sha256": "28bf3c5168c7af2d07f4309249d7a89e38171ee4a6d62a0c2c8c813d0a69048a",
+    "metadata": {
+      "backend": "te",
+      "cp": 2,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "b3078fdea3fc88aee4d0e1ada3f73a6ba148fc7b06b50a5cbbd5dcd6dcfe6837",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp4_eager.json",
+    "sha256": "eb9b3f4c864a24ac38876d9c2baf97b5b34ff071478b6389c9b213a80f637413",
+    "metadata": {
+      "backend": "te",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "85d054322b9c323c099bafdf75a6678969e59c3d",
+      "source_diff_sha256": "782ea2130afb98762b280ef027d5f77f5f3740e65f02c2fe4eb7c41b753689a6",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "eager"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  },
+  {
+    "file": "runs/hsg/matrix/te_cp4_graph.json",
+    "sha256": "0e76e25cba55b5026d40af2aae45d5749db1859ff134bb886ff7cd05c5ad85a2",
+    "metadata": {
+      "backend": "te",
+      "cp": 4,
+      "gpu": "NVIDIA GB200",
+      "torch": "2.14.0a0+4fdf77b940.nv26.08",
+      "cuda": "13.4",
+      "nccl": "nccl",
+      "source_sha": "b4a907ffe70267078fba4f8af1d823c9b552b752",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "python": "/opt/venv/bin/python",
+      "seed": 4397,
+      "dtype": "bfloat16",
+      "batch": 1,
+      "model": "Qwen/Qwen3-30B-A3B",
+      "q_heads": 32,
+      "kv_heads": 4,
+      "head_dim": 128,
+      "synthetic_weights": true,
+      "packing": false,
+      "execution": [
+        "graph"
+      ],
+      "cp_algorithm": "p2p",
+      "packages": {
+        "transformers": "5.15.1",
+        "transformer-engine": "2.19.0",
+        "nvidia-cutlass-dsl": "4.6.2",
+        "flash-attn-4": "4.0.0b29",
+        "magi_attention": "0.0.0"
+      },
+      "magi_kernel_backend": "fa4"
+    }
+  }
+]

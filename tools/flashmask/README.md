@@ -1,5 +1,7 @@
 # FlashMask attention experiment (#4397)
 
+[Measured H100/GB200 results, plots and artifacts](results/README.md).
+
 This branch adds the optional `backend.attn: flashmask` backend and binds its
 context-parallel process group for native Qwen3-MoE attention. It uses the
 PyTorch frontend of [FlashMask](https://github.com/PaddlePaddle/FlashMask), pinned
