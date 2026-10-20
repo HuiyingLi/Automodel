@@ -60,10 +60,9 @@ def _worker(rank: int, rendezvous: str, wrong_order: bool) -> None:
         torch.manual_seed(4397)
         full = [torch.randn(1, 12, h, 4, requires_grad=True) for h in (4, 2, 2)]
         upstream = torch.randn_like(full[0])
-        ref = _math_attention(*full, causal=True, softmax_scale=.5)
+        ref = _math_attention(*full, causal=True, softmax_scale=0.5)
         ref.backward(upstream)
-        indices = torch.tensor(list(range(rank * 3, (rank + 1) * 3)) +
-                               list(range((3 - rank) * 3, (4 - rank) * 3)))
+        indices = torch.tensor(list(range(rank * 3, (rank + 1) * 3)) + list(range((3 - rank) * 3, (4 - rank) * 3)))
         local = [x.detach().index_select(1, indices).requires_grad_() for x in full]
         # Replace only the unavailable CUDA kernel. Real Gloo all-to-all and
         # its autograd run; the expected result is independent dense math.
@@ -71,11 +70,13 @@ def _worker(rank: int, rendezvous: str, wrong_order: bool) -> None:
             patch.setattr(fm, "safe_import", lambda name: (True, SimpleNamespace(flashmask_attention=_math_attention)))
             if wrong_order:
                 original = fm._sequence_to_heads
+
                 def wrong(x: torch.Tensor, group: dist.ProcessGroup) -> torch.Tensor:
                     """Perturb token order in [batch, sequence, heads, channels] tensors."""
                     return original(x, group).flip(1)
+
                 patch.setattr(fm, "_sequence_to_heads", wrong)
-            module = fm.FlashMaskAttention(softmax_scale=.5)
+            module = fm.FlashMaskAttention(softmax_scale=0.5)
             module.cp_group = dist.group.WORLD
             actual = module(*local)
             expected = ref.detach().index_select(1, indices)
@@ -96,13 +97,13 @@ def test_ulysses_transport_matches_fp32_oracle(tmp_path: Path, wrong_order: bool
     mp.spawn(_worker, args=((tmp_path / "rendezvous").as_uri(), wrong_order), nprocs=2, join=True)
 
 
-def test_missing_optional_dependency(monkeypatch) -> None:
+def test_missing_optional_dependency(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(fm, "safe_import", lambda name: (False, None))
     with pytest.raises(ImportError, match="FlashMask"):
-        fm.FlashMaskAttention(softmax_scale=.5)
+        fm.FlashMaskAttention(softmax_scale=0.5)
 
 
-@pytest.mark.parametrize("kind", ["padding", "packed", "window", "thd"])
+@pytest.mark.parametrize("kind", ["padding", "packed", "padded_packed", "window", "thd", "thd_metadata"])
 def test_reject_unsupported_mask_contracts(kind: str) -> None:
     q = torch.zeros(1, 12, 4, 4)
     k = v = torch.zeros(1, 12, 2, 4)
@@ -110,6 +111,10 @@ def test_reject_unsupported_mask_contracts(kind: str) -> None:
     kwargs = {}
     if kind == "packed":
         kwargs["cu_seqlens"] = torch.tensor([0, 6, 12], dtype=torch.int32)
+    if kind == "padded_packed":
+        kwargs["cu_seqlens_padded"] = torch.tensor([0, 6, 12], dtype=torch.int32)
+    if kind == "thd_metadata":
+        kwargs["qkv_format"] = "thd"
     if kind == "window":
         kwargs["window_size"] = (4, 0)
     if kind == "thd":
@@ -118,14 +123,14 @@ def test_reject_unsupported_mask_contracts(kind: str) -> None:
         preprocess_args_and_kwargs_for_attn(q, k, v, mask, "flashmask", **kwargs)
 
 
-def test_factory_preserves_bshd_and_column_mask(monkeypatch) -> None:
+def test_factory_preserves_bshd_and_column_mask(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(fm, "safe_import", lambda name: (True, SimpleNamespace(flashmask_attention=_math_attention)))
-    module, fn = initialize_attn_module_and_func("flashmask", 4, 4, 4, .5, num_gqa_groups=2)
+    module, fn = initialize_attn_module_and_func("flashmask", 4, 4, 4, 0.5, num_gqa_groups=2)
     q = torch.randn(2, 12, 4, 4, requires_grad=True)
     k = torch.randn(2, 12, 2, 4, requires_grad=True)
     v = torch.randn_like(k, requires_grad=True)
     output = fn(q, k, v)
-    expected = _math_attention(q, k, v, causal=True, softmax_scale=.5)
+    expected = _math_attention(q, k, v, causal=True, softmax_scale=0.5)
     torch.testing.assert_close(output, expected)
     mask = torch.full((2, 1, 12, 1), 12, dtype=torch.int32)
     q1, k1, v1, kw = preprocess_args_and_kwargs_for_attn(q, k, v, None, "flashmask", startend_row_indices=mask)

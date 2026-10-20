@@ -47,7 +47,7 @@ FLASHMASK_FRAMEWORK=torch FLASHMASK_BUILD=core uv pip install --no-deps --no-bui
 ```
 
 The experiment preserves the container's torch, TE and CUDA versions. CuTe
-4.6.2 is used by the container's FA4/Magi paths and 4.5.2 by FlashMask.
+4.6.2 is used by the container's standalone FA4 path and 4.5.2 by FlashMask.
 
 ## Reproducing the module benchmark
 
@@ -68,6 +68,30 @@ is measured under `sdpa`. FA3 uses a benchmark-only callable adapter in the
 otherwise unchanged Qwen module. TE is run with `NVTE_FLASH_ATTN=0` and
 `NVTE_FUSED_ATTN=1` so the label identifies cuDNN fused attention. On Blackwell,
 Magi requires `MAGI_ATTENTION_KERNEL_BACKEND=fa4`; Hopper uses `ffa`.
+The container's Magi revision is `d7ea8afd44c790b65fab68a04a6a0fdd5adbf182`.
+Its FA4 backend requires its own pinned submodule, not standalone FA4:
+
+```bash
+# In a separate environment inheriting the same container torch/TE packages:
+uv pip install 'nvidia-cutlass-dsl[cu13]==4.4.2' 'apache-tvm-ffi==0.1.8.post0' 'quack-kernels==0.4.1'
+uv pip install --reinstall-package nvidia-cutlass-dsl-libs-cu13 --no-deps nvidia-cutlass-dsl-libs-cu13==4.4.2
+git clone https://github.com/demonatic/flash-attention.git magi-fa4
+cd magi-fa4
+git checkout ee1d15159cda6f3f97bfab9e487da146a8254970
+uv pip install --no-deps -e flash_attn/cute
+```
+
+The Qwen attention dimensions were checked against checkpoint config revision
+`ad44e777bcd18fa416d9da3bd8f70d33ebb85d39`. No checkpoint weights are loaded.
+
+An additional Blackwell-only comparator, `flashmask_overlap`, imports the
+pinned upstream `tests/torch/distributed/overlap_flashmask.py` wrapper via
+`--flashmask-source /path/to/FlashMask`. Build upstream with
+`FLASHMASK_BUILD=core+ovl` first. It uses the upstream NCCL-GIN CP algorithm,
+with global causal masking encoded as column bounds. This is a benchmark-only
+adapter, separate from the integrated Ulysses backend. Run each sequence and
+scope in a fresh process as required by the upstream overlap implementation.
+Mask rebasing/reordering inside the upstream wrapper is included in timing.
 
 Every invocation first compares outputs, input gradients and module parameter
 gradients with an identical full-sequence SDPA module. Parameter gradients are

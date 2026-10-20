@@ -372,9 +372,21 @@ def preprocess_args_and_kwargs_for_attn(
     elif attn_impl == "flashmask":
         if attention_mask is not None:
             raise ValueError("FlashMask uses startend_row_indices, not a dense or padding attention_mask")
-        if q.ndim != 4 or any(
-            kwargs.get(key) is not None
-            for key in ("cu_seqlens", "cu_seqlens_q", "cu_seqlens_kv", "packed_token_indices")
+        if (
+            q.ndim != 4
+            or kwargs.get("qkv_format") == "thd"
+            or any(
+                kwargs.get(key) is not None
+                for key in (
+                    "cu_seqlens",
+                    "cu_seqlens_q",
+                    "cu_seqlens_kv",
+                    "cu_seqlens_padded",
+                    "cu_seqlens_q_padded",
+                    "cu_seqlens_kv_padded",
+                    "packed_token_indices",
+                )
+            )
         ):
             raise ValueError("FlashMask requires unpacked BSHD; packed varlen metadata is unsupported")
         if kwargs.get("window_size", (-1, 0)) not in ((-1, 0), (-1, -1), (None, None)):

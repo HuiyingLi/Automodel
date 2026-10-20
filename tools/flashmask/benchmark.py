@@ -101,7 +101,10 @@ def _core_reference(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.
 def main() -> None:
     """Validate and time the requested native attention backend on one CP group."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--backend", choices=("flashmask", "te", "fa3", "fa4", "sdpa", "magi"), required=True)
+    parser.add_argument(
+        "--backend", choices=("flashmask", "flashmask_overlap", "te", "fa3", "fa4", "sdpa", "magi"), required=True
+    )
+    parser.add_argument("--flashmask-source", type=Path, help="Pinned upstream checkout for the overlap comparison")
     parser.add_argument("--seq", type=int, nargs="+", default=[4096, 8192])
     parser.add_argument("--scope", nargs="+", choices=("core", "module"), default=["core", "module"])
     parser.add_argument("--execution", nargs="+", choices=("eager", "graph"), default=["eager"])
@@ -140,6 +143,7 @@ def main() -> None:
         "execution": args.execution,
         "cp_algorithm": {
             "flashmask": "ulysses",
+            "flashmask_overlap": "upstream_nccl_gin_overlap",
             "te": "p2p",
             "sdpa": "torch_ring",
             "magi": "magi",
@@ -154,7 +158,16 @@ def main() -> None:
         },
     }
     metadata["magi_kernel_backend"] = os.environ.get("MAGI_ATTENTION_KERNEL_BACKEND", "ffa")
-    native_backend = "fa4" if args.backend == "fa3" else args.backend
+    native_backend = {"fa3": "fa4", "flashmask_overlap": "flashmask"}.get(args.backend, args.backend)
+    if args.backend == "flashmask_overlap":
+        if args.flashmask_source is None or size == 1:
+            raise ValueError("The upstream overlap comparison requires --flashmask-source and CP > 1")
+        os.sys.path.insert(0, str(args.flashmask_source / "tests/torch/distributed"))
+        from overlap_flashmask import overlap_flashmask_attention_fm4
+
+        metadata["flashmask_source_sha"] = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=args.flashmask_source, text=True
+        ).strip()
     if args.backend == "fa3":
         from flash_attn_interface import flash_attn_func
 
@@ -275,6 +288,30 @@ def main() -> None:
                     for h in (32, 4, 4)
                 ]
                 expected = _core_reference(*full)
+            if args.backend == "flashmask_overlap":
+                # Noncausal column bounds encode the identical global causal
+                # mask. The upstream wrapper rebases it for head-tail CP.
+                column_mask = torch.empty(1, 1, seq, 2, device="cuda", dtype=torch.int32)
+                column_mask[..., 0] = seq
+                column_mask[..., 1] = torch.arange(seq, device="cuda", dtype=torch.int32)
+
+                def overlap(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
+                    """Run upstream's single-node CP overlap wrapper on local BSHD inputs.
+
+                    Args:
+                        q: Local query tensor in head-tail sequence order.
+                        k: Local key tensor in the same sequence order.
+                        v: Local value tensor in the same sequence order.
+
+                    Returns:
+                        Local attention output with q's sequence/head layout.
+                    """
+                    return overlap_flashmask_attention_fm4(q, k, v, column_mask, causal=False, group=group)
+
+                if scope == "module":
+                    module.attn_func = overlap
+                else:
+                    attn_func = overlap
             if args.backend == "fa3":
                 if scope == "module":
                     module.attn_func = fa3
@@ -498,6 +535,10 @@ def main() -> None:
                             ),
                             flush=True,
                         )
+                    # NCCL communicators captured by a live graph cannot be
+                    # destroyed during process-group teardown.
+                    graph.reset()
+                    del graph, captured_output, stream
             module = None
             local = []
     dist.destroy_process_group()

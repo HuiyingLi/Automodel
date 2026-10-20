@@ -17,7 +17,10 @@
 import pytest
 import torch
 
-from nemo_automodel.components.attention.utils import initialize_attn_module_and_func, preprocess_args_and_kwargs_for_attn
+from nemo_automodel.components.attention.utils import (
+    initialize_attn_module_and_func,
+    preprocess_args_and_kwargs_for_attn,
+)
 
 
 @pytest.mark.parametrize("mask_kind", ["causal", "documents", "empty"])
@@ -41,14 +44,16 @@ def test_flashmask_kernel_output_and_gradients(mask_kind: str) -> None:
         column_mask = torch.zeros(1, 1, size, 1, device="cuda", dtype=torch.int32)
     qr = refs[0].transpose(1, 2)
     kr, vr = [t.transpose(1, 2).repeat_interleave(2, dim=1) for t in refs[1:]]
-    scores = qr @ kr.transpose(-1, -2) / 128**.5
+    scores = qr @ kr.transpose(-1, -2) / 128**0.5
     scores = scores.masked_fill(~allowed, -torch.inf)
     # Empty rows have zero attention and zero gradients, defined explicitly.
     safe_scores = torch.where(allowed.any(-1)[None, None, :, None], scores, torch.zeros_like(scores))
     probabilities = safe_scores.softmax(-1) * allowed[None, None]
     expected = (probabilities @ vr).transpose(1, 2)
-    module, attention = initialize_attn_module_and_func("flashmask", 4, 128, 128, 128**-.5, num_gqa_groups=2)
-    q1, k1, v1, kwargs = preprocess_args_and_kwargs_for_attn(q, k, v, None, "flashmask", startend_row_indices=column_mask)
+    module, attention = initialize_attn_module_and_func("flashmask", 4, 128, 128, 128**-0.5, num_gqa_groups=2)
+    q1, k1, v1, kwargs = preprocess_args_and_kwargs_for_attn(
+        q, k, v, None, "flashmask", startend_row_indices=column_mask
+    )
     actual = attention(q1, k1, v1, **kwargs)
     upstream = torch.randn_like(actual)
     actual.backward(upstream)
@@ -58,5 +63,5 @@ def test_flashmask_kernel_output_and_gradients(mask_kind: str) -> None:
         difference = tested.float() - reference
         rms = difference.square().mean().sqrt() / reference.square().mean().sqrt().clamp_min(1e-9)
         maximum = difference.abs().max() / reference.abs().max().clamp_min(1e-9)
-        assert rms < .01
-        assert maximum < .02
+        assert rms < 0.01
+        assert maximum < 0.02
