@@ -79,6 +79,7 @@ git clone https://github.com/demonatic/flash-attention.git magi-fa4
 cd magi-fa4
 git checkout ee1d15159cda6f3f97bfab9e487da146a8254970
 uv pip install --no-deps -e flash_attn/cute
+uv pip install --no-deps --no-build-isolation -e csrc/utils/magi_to_hstu -e csrc/utils/create_block_mask
 ```
 
 The Qwen attention dimensions were checked against checkpoint config revision
@@ -89,9 +90,18 @@ pinned upstream `tests/torch/distributed/overlap_flashmask.py` wrapper via
 `--flashmask-source /path/to/FlashMask`. Build upstream with
 `FLASHMASK_BUILD=core+ovl` first. It uses the upstream NCCL-GIN CP algorithm,
 with global causal masking encoded as column bounds. This is a benchmark-only
-adapter, separate from the integrated Ulysses backend. Run each sequence and
-scope in a fresh process as required by the upstream overlap implementation.
-Mask rebasing/reordering inside the upstream wrapper is included in timing.
+adapter, separate from the integrated Ulysses backend. Apply
+`upstream-torch-overlap.patch` from this directory to the pinned FlashMask
+checkout: it replaces an obsolete Paddle-importing compatibility path with the
+same framework-neutral fwd/bwd functions. No kernel or communication logic is
+changed. The source diff hash is recorded.
+
+Run each sequence and scope in a fresh process as required by upstream buffer
+lifetimes. Its compiled overlap implementation only accepts local lengths
+4096/8192/16384/32768/65536/131072. Therefore among the requested global 4K/8K
+and CP 2/4 settings, only global 8K at CP 2 is supported. Mask rebasing/reordering
+inside the upstream wrapper is included in timing. This restriction does not
+apply to the integrated Ulysses backend.
 
 Every invocation first compares outputs, input gradients and module parameter
 gradients with an identical full-sequence SDPA module. Parameter gradients are

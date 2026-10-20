@@ -1,0 +1,14 @@
+diff --git a/tests/torch/distributed/overlap_flashmask.py b/tests/torch/distributed/overlap_flashmask.py
+index 9ea0f99..ecd2a43 100644
+--- a/tests/torch/distributed/overlap_flashmask.py
++++ b/tests/torch/distributed/overlap_flashmask.py
+@@ -19,7 +19,8 @@ import torch.distributed as dist
+ 
+ from cp_utils import preprocess_index_dual_chunks
+ 
+-from flashmask.cute.interface import _flash_attn_fwd, _flash_attn_bwd
++from flashmask.cute.ops.fwd import _flash_attn_fwd
++from flashmask.cute.ops.bwd import _flash_attn_bwd
+ 
+ # dK/dV are reduced-scattered to the local share inside the overlap kernel, so the
+ # backward returns them as-is. Set False only for a build whose kernel emits

@@ -162,12 +162,21 @@ def main() -> None:
     if args.backend == "flashmask_overlap":
         if args.flashmask_source is None or size == 1:
             raise ValueError("The upstream overlap comparison requires --flashmask-source and CP > 1")
+        if len(args.seq) != 1 or len(args.scope) != 1:
+            raise ValueError(
+                "Run each overlap sequence/scope in a separate process (upstream buffer lifetime constraint)"
+            )
+        if args.seq[0] // size not in (4096, 8192, 16384, 32768, 65536, 131072):
+            raise ValueError("Upstream overlap supports local lengths 4096/8192/16384/32768/65536/131072 only")
         os.sys.path.insert(0, str(args.flashmask_source / "tests/torch/distributed"))
         from overlap_flashmask import overlap_flashmask_attention_fm4
 
         metadata["flashmask_source_sha"] = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=args.flashmask_source, text=True
         ).strip()
+        metadata["flashmask_source_diff_sha256"] = hashlib.sha256(
+            subprocess.check_output(["git", "diff", "HEAD"], cwd=args.flashmask_source)
+        ).hexdigest()
     if args.backend == "fa3":
         from flash_attn_interface import flash_attn_func
 
