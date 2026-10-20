@@ -96,7 +96,11 @@ adapter, separate from the integrated Ulysses backend. Apply
 `upstream-torch-overlap.patch` from this directory to the pinned FlashMask
 checkout: it replaces an obsolete Paddle-importing compatibility path with the
 same framework-neutral fwd/bwd functions. No kernel or communication logic is
-changed. The source diff hash is recorded.
+changed. The source diff hash is recorded. Apply this zero-context patch with:
+
+```bash
+git -C /path/to/FlashMask apply --unidiff-zero /path/to/Automodel/tools/flashmask/upstream-torch-overlap.patch
+```
 
 Run each sequence and scope in a fresh process as required by upstream buffer
 lifetimes. Its compiled overlap implementation only accepts local lengths
