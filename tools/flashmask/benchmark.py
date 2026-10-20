@@ -102,9 +102,33 @@ def main() -> None:
     """Validate and time the requested native attention backend on one CP group."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--backend", choices=("flashmask", "flashmask_overlap", "te", "fa3", "fa4", "sdpa", "magi"), required=True
+        "--backend",
+        choices=(
+            "flashmask",
+            "flashmask_overlap",
+            "flashmask_allgather",
+            "flashmask_cpb",
+            "te",
+            "fa3",
+            "fa4",
+            "sdpa",
+            "magi",
+        ),
+        required=True,
     )
-    parser.add_argument("--flashmask-source", type=Path, help="Pinned upstream checkout for the overlap comparison")
+    parser.add_argument(
+        "--packed", action="store_true", help="Run native THD Qwen projections/RoPE with packed kernel adapters"
+    )
+    parser.add_argument("--documents", type=int, choices=(4, 16), default=4)
+    parser.add_argument(
+        "--fa4-unpacked", action="store_true", help="Disable FA4 GQA head packing for the sparse comparator"
+    )
+    parser.add_argument("--fa4-mask-engine", choices=("sparse", "varlen"), default="sparse")
+    parser.add_argument("--mask", choices=("causal", "documents", "prefix"), default="causal")
+    parser.add_argument(
+        "--flashmask-source", type=Path, help="Pinned FlashMask checkout for native CP adapters and source provenance"
+    )
+    parser.add_argument("--te-cp-comm", choices=("p2p", "all_gather", "a2a", "a2a+p2p"), default="p2p")
     parser.add_argument("--seq", type=int, nargs="+", default=[4096, 8192])
     parser.add_argument("--scope", nargs="+", choices=("core", "module"), default=["core", "module"])
     parser.add_argument("--execution", nargs="+", choices=("eager", "graph"), default=["eager"])
@@ -113,13 +137,46 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.packed:
+        if args.scope != ["module"] or args.mask != "documents":
+            raise ValueError("Packed comparison requires --scope module --mask documents")
+        args.fa4_mask_engine = "varlen"
+    elif args.documents != 4:
+        raise ValueError("The 16-document profile is selected with --packed")
+    alignment = (4 if args.mask == "prefix" else 2) * args.documents
+    if args.mask != "causal" and any(seq % alignment for seq in args.seq):
+        raise ValueError(f"Document construction requires sequence lengths divisible by {alignment}")
     torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
     dist.init_process_group("nccl", device_id=torch.device("cuda", torch.cuda.current_device()))
     size, rank = dist.get_world_size(), dist.get_rank()
     mesh = init_device_mesh("cuda", (size,), mesh_dim_names=("cp",))
     group = mesh.get_group()
+    te_group = group
+    if args.backend == "te" and args.te_cp_comm == "a2a+p2p":
+        if size != 4:
+            raise ValueError("This single-node hybrid comparison uses CP4 with 2 x 2 groups")
+        local_groups = [dist.new_group(ranks) for ranks in ([0, 1], [2, 3])]
+        ring_groups = [dist.new_group(ranks) for ranks in ([0, 2], [1, 3])]
+        te_group = [local_groups[rank // 2], ring_groups[rank % 2]]
     if args.backend in ("fa3", "fa4") and size > 1:
         raise ValueError("Native AutoModel FA4 has no CP path; use sdpa for the PyTorch FlashAttention ring baseline")
+    if args.mask != "causal" and args.backend not in (
+        "flashmask",
+        "flashmask_overlap",
+        "flashmask_allgather",
+        "flashmask_cpb",
+        "magi",
+        "fa4",
+        "fa3",
+        "te",
+    ):
+        raise ValueError("Mask adapters cover FlashMask, Magi, TE, and FA3/FA4")
+    if args.mask != "causal" and args.backend == "te" and size > 1 and not args.packed:
+        raise ValueError("The varlen decomposition adapter currently covers CP=1 only")
+    from masks import boundaries, fa4_mask, magi_key, varlen_attention
+    from masks import column_mask as make_column_mask
+    from masks import reference as mask_reference
+
     repo = Path(__file__).resolve().parents[2]
     metadata = {
         "backend": args.backend,
@@ -127,10 +184,25 @@ def main() -> None:
         "gpu": torch.cuda.get_device_name(),
         "torch": torch.__version__,
         "cuda": torch.version.cuda,
+        "environment": {
+            name: os.environ.get(name)
+            for name in (
+                "NCCL_NVLS_ENABLE",
+                "NVTE_FLASH_ATTN",
+                "NVTE_FUSED_ATTN",
+                "FLASHMASK_USE_HIERARCHICAL",
+                "FLASHMASK_PER_STAGE_BUFFER",
+                "FLASHMASK_USE_BHSD_LAYOUT",
+            )
+        },
         "nccl": dist.get_backend(group),
         "source_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
         "source_diff_sha256": hashlib.sha256(subprocess.check_output(["git", "diff", "HEAD"], cwd=repo)).hexdigest(),
         "python": os.sys.executable,
+        "benchmark_files_sha256": {
+            name: hashlib.sha256((Path(__file__).parent / name).read_bytes()).hexdigest()
+            for name in ("benchmark.py", "masks.py", "packed.py")
+        },
         "seed": 4397,
         "dtype": "bfloat16",
         "batch": 1,
@@ -139,12 +211,21 @@ def main() -> None:
         "kv_heads": 4,
         "head_dim": 128,
         "synthetic_weights": True,
-        "packing": False,
+        "packing": args.packed,
+        "input_layout": "thd" if args.packed else "bshd",
+        "documents": args.documents,
+        "positions_reset_per_document": args.packed,
+        "mask": args.mask,
+        "fa4_mask_engine": args.fa4_mask_engine,
+        "fa4_pack_gqa": not args.fa4_unpacked,
+        "mask_setup_timed": False,
         "execution": args.execution,
         "cp_algorithm": {
             "flashmask": "ulysses",
             "flashmask_overlap": "upstream_nccl_gin_overlap",
-            "te": "p2p",
+            "flashmask_allgather": "upstream_all_gather_dual_chunk",
+            "flashmask_cpb": "upstream_all_gather_cpb_lpt",
+            "te": args.te_cp_comm,
             "sdpa": "torch_ring",
             "magi": "magi",
             "fa4": "none",
@@ -158,7 +239,22 @@ def main() -> None:
         },
     }
     metadata["magi_kernel_backend"] = os.environ.get("MAGI_ATTENTION_KERNEL_BACKEND", "ffa")
-    native_backend = {"fa3": "fa4", "flashmask_overlap": "flashmask"}.get(args.backend, args.backend)
+    native_backend = {
+        "fa3": "fa4",
+        "flashmask_overlap": "flashmask",
+        "flashmask_allgather": "flashmask",
+        "flashmask_cpb": "flashmask",
+    }.get(args.backend, args.backend)
+    if args.backend in ("flashmask_allgather", "flashmask_cpb"):
+        if args.flashmask_source is None or size == 1:
+            raise ValueError("The upstream CP comparisons require --flashmask-source and CP > 1")
+        os.sys.path.insert(0, str(args.flashmask_source / "tests/torch/distributed"))
+        from all_gather_flashmask import flashmask_attention_cp
+        from balanced_flashmask import balanced_flashmask_attention_fm4
+        from flashmask.cp_balance import balance_flashmask_input
+
+        if args.backend == "flashmask_cpb" and any(seq % (2048 * size) for seq in args.seq):
+            raise ValueError("Upstream CPB uses 2048-token chunks; sequence must divide by 2048 * CP")
     if args.backend == "flashmask_overlap":
         if args.flashmask_source is None or size == 1:
             raise ValueError("The upstream overlap comparison requires --flashmask-source and CP > 1")
@@ -171,6 +267,15 @@ def main() -> None:
         os.sys.path.insert(0, str(args.flashmask_source / "tests/torch/distributed"))
         from overlap_flashmask import overlap_flashmask_attention_fm4
 
+        metadata["flashmask_source_sha"] = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=args.flashmask_source, text=True
+        ).strip()
+        metadata["flashmask_source_diff_sha256"] = hashlib.sha256(
+            subprocess.check_output(["git", "diff", "HEAD"], cwd=args.flashmask_source)
+        ).hexdigest()
+    if args.backend in ("flashmask_allgather", "flashmask_cpb") or (
+        args.backend == "flashmask" and args.flashmask_source is not None
+    ):
         metadata["flashmask_source_sha"] = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=args.flashmask_source, text=True
         ).strip()
@@ -211,6 +316,19 @@ def main() -> None:
             if seq % (2 * size):
                 raise ValueError("Sequence must divide evenly into 2 * CP chunks")
             key = None
+            buckets = None
+            if args.backend in ("flashmask_allgather", "flashmask_cpb"):
+                if args.mask == "causal":
+                    column_mask = torch.empty(1, 1, seq, 2, device="cuda", dtype=torch.int32)
+                    column_mask[..., 0] = seq
+                    column_mask[..., 1] = torch.arange(seq, device="cuda", dtype=torch.int32)
+                else:
+                    column_mask = make_column_mask(seq, args.mask, args.documents)
+                if args.backend == "flashmask_cpb":
+                    local_mask, buckets = balance_flashmask_input(column_mask.clone(), size, rank)
+                    metadata.setdefault("cpb_buckets", {})[str(seq)] = [
+                        [[int(w), int(i)] for w, i in bucket] for bucket in buckets
+                    ]
             if args.backend == "magi":
                 from magi_attention.api import dispatch, magi_attn_varlen_key
 
@@ -229,6 +347,8 @@ def main() -> None:
                     causal=True,
                     chunk_size=512,
                 )
+                if args.mask != "causal":
+                    key = magi_key(seq, args.mask, group, args.documents)
             chunk = seq // (2 * size)
             idx = torch.cat(
                 (
@@ -236,6 +356,22 @@ def main() -> None:
                     torch.arange((2 * size - 1 - rank) * chunk, (2 * size - rank) * chunk, device="cuda"),
                 )
             )
+
+            packed_cu = None
+            packed_indices = []
+            packed_max = 0
+            if args.packed:
+                import transformer_engine.pytorch  # noqa: F401 - initializes the extension module
+                import transformer_engine_torch as tex
+
+                bounds = boundaries(seq, args.documents)
+                packed_cu = torch.tensor(bounds, dtype=torch.int32, device="cuda")
+                packed_max = max(b - a for a, b in zip(bounds[:-1], bounds[1:]))
+                if args.backend in ("te", "flashmask"):
+                    if any((b - a) % (2 * size) for a, b in zip(bounds[:-1], bounds[1:])):
+                        raise ValueError("Packed head-tail CP requires each document length divisible by 2 * CP")
+                    packed_indices = [tex.thd_get_partitioned_indices(packed_cu, seq, size, r) for r in range(size)]
+                    idx = packed_indices[rank]
 
             def partition(tensor: torch.Tensor) -> torch.Tensor:
                 """Partition global [1, sequence, ...] tensors identically to attention.
@@ -247,6 +383,10 @@ def main() -> None:
                     Tensor of shape [1, local_sequence, ...], detached from
                     its source and using this backend's token ordering.
                 """
+                if buckets is not None:
+                    from cp_utils import scatter_balance
+
+                    return scatter_balance(tensor, group=group, axis=1, mode="balanced_swap", buckets=buckets).detach()
                 if key is not None:
                     return dispatch(tensor.squeeze(0), key=key).unsqueeze(0).detach().contiguous()
                 return tensor.index_select(1, idx).detach().contiguous()
@@ -270,6 +410,14 @@ def main() -> None:
                 module = Qwen3MoeAttention(
                     cfg, BackendConfig(attn=native_backend, linear="torch", rms_norm="torch", rope_fusion=False)
                 ).cuda()
+                if args.mask != "causal":
+
+                    def reference_attn(q, k, v, **kwargs):
+                        return mask_reference(
+                            q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2), args.mask, args.documents
+                        ).transpose(1, 2)
+
+                    ref_module.attn_func = reference_attn
                 state = module.state_dict()
                 reference_state = ref_module.state_dict()
                 if {k for k in state if not k.endswith("_extra_state")} != set(reference_state):
@@ -279,6 +427,13 @@ def main() -> None:
                 torch.manual_seed(4398)
                 full = [torch.randn(1, seq, 2048, device="cuda", dtype=torch.bfloat16, requires_grad=True)]
                 positions = torch.arange(seq, device="cuda", dtype=torch.float32)
+                if args.packed:
+                    positions = torch.cat(
+                        [
+                            torch.arange(b - a, device="cuda", dtype=torch.float32)
+                            for a, b in zip(bounds[:-1], bounds[1:])
+                        ]
+                    )
                 inv_freq = 1000000.0 ** (-torch.arange(0, 128, 2, device="cuda", dtype=torch.float32) / 128)
                 angles = positions[:, None] * inv_freq[None, :]
                 freqs = torch.cat((angles.cos(), angles.sin()), -1).unsqueeze(0)
@@ -296,13 +451,19 @@ def main() -> None:
                     torch.randn(1, seq, h, 128, device="cuda", dtype=torch.bfloat16, requires_grad=True)
                     for h in (32, 4, 4)
                 ]
-                expected = _core_reference(*full)
+                expected = (
+                    _core_reference(*full)
+                    if args.mask == "causal"
+                    else mask_reference(*full, args.mask, args.documents)
+                )
             if args.backend == "flashmask_overlap":
                 # Noncausal column bounds encode the identical global causal
                 # mask. The upstream wrapper rebases it for head-tail CP.
                 column_mask = torch.empty(1, 1, seq, 2, device="cuda", dtype=torch.int32)
                 column_mask[..., 0] = seq
                 column_mask[..., 1] = torch.arange(seq, device="cuda", dtype=torch.int32)
+                if args.mask != "causal":
+                    column_mask = make_column_mask(seq, args.mask, args.documents)
 
                 def overlap(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
                     """Run upstream's single-node CP overlap wrapper on local BSHD inputs.
@@ -321,11 +482,48 @@ def main() -> None:
                     module.attn_func = overlap
                 else:
                     attn_func = overlap
+            if args.backend in ("flashmask_allgather", "flashmask_cpb"):
+
+                def upstream_cp(q, k, v):
+                    if args.backend == "flashmask_cpb":
+                        return balanced_flashmask_attention_fm4(q, k, v, local_mask, group=group)
+                    return flashmask_attention_cp(q, k, v, column_mask, causal=False, group=group)
+
+                if scope == "module":
+                    module.attn_func = upstream_cp
+                else:
+                    attn_func = upstream_cp
             if args.backend == "fa3":
                 if scope == "module":
                     module.attn_func = fa3
                 else:
                     attn_func = fa3
+            if args.mask != "causal" and args.backend == "flashmask":
+                attention.causal = False
+                column_mask = make_column_mask(seq, args.mask, args.documents)
+            if args.mask != "causal" and args.backend == "fa4":
+                masked_fa4 = (
+                    fa4_mask(seq, args.mask, pack_gqa=not args.fa4_unpacked)
+                    if args.fa4_mask_engine == "sparse"
+                    else varlen_attention(seq, args.mask, "fa4")
+                )
+                if scope == "module":
+                    module.attn_func = masked_fa4
+                else:
+                    attn_func = masked_fa4
+            if args.mask != "causal" and args.backend in ("te", "fa3", "magi"):
+                if args.backend == "magi":
+                    from magi_attention.api import calc_attn
+
+                    def masked_attention(q, k, v):
+                        out, _ = calc_attn(q.squeeze(0), k.squeeze(0), v.squeeze(0), key=key)
+                        return out.unsqueeze(0)
+                else:
+                    masked_attention = varlen_attention(seq, args.mask, args.backend, attention)
+                if scope == "module":
+                    module.attn_func = masked_attention
+                else:
+                    attn_func = masked_attention
             dout = torch.randn_like(expected)
             expected.backward(dout)
             expected_local, dout_local = partition(expected.detach()), partition(dout)
@@ -333,13 +531,27 @@ def main() -> None:
             local = [partition(t).requires_grad_() for t in full]
             if args.backend == "te" and size > 1:
                 attention.set_context_parallel_group(
-                    group, dist.get_process_group_ranks(group), torch.cuda.Stream(), cp_comm_type="p2p"
+                    te_group, dist.get_process_group_ranks(group), torch.cuda.Stream(), cp_comm_type=args.te_cp_comm
                 )
             if args.backend == "flashmask":
                 if scope == "module":
                     module.setup_cp_attention(mesh)
                 else:
                     attention.cp_group = group
+
+            if args.packed:
+                from packed import bind_packed_attention
+
+                module.attn_func = bind_packed_attention(
+                    module,
+                    args.backend,
+                    packed_cu,
+                    packed_max,
+                    group,
+                    make_column_mask(seq, "documents", args.documents),
+                    key,
+                    packed_indices,
+                )
 
             def forward() -> torch.Tensor:
                 """Run a native backend on the captured local input tensors.
@@ -348,8 +560,24 @@ def main() -> None:
                     Local BSHD core output or [1, local_sequence, 2048] module output.
                 """
                 if scope == "module":
+                    if args.packed:
+                        return module(
+                            local[0].squeeze(0),
+                            freqs_cis=freqs_local.squeeze(0),
+                            cu_seqlens=packed_cu,
+                            cu_seqlens_padded=packed_cu,
+                            max_seqlen=packed_max,
+                            cp_size=size,
+                            cp_rank=rank,
+                            qkv_format="thd",
+                            pad_between_seqs=False,
+                        ).unsqueeze(0)
+                    if args.mask != "causal" and args.backend == "flashmask":
+                        return module(local[0], freqs_cis=freqs_local, startend_row_indices=column_mask)
                     return module(local[0], freqs_cis=freqs_local)
                 q, k, v, kw = preprocess_args_and_kwargs_for_attn(*local, None, native_backend)
+                if args.mask != "causal" and args.backend == "flashmask":
+                    kw["startend_row_indices"] = column_mask
                 out = postprocess_output_for_attn(attn_func(q, k, v, **kw), native_backend)
                 return out.reshape(1, local[0].shape[1], 32, 128)
 
@@ -444,6 +672,7 @@ def main() -> None:
                     "scope": scope,
                     "mode": mode,
                     "input_sha256": data_hash,
+                    "document_boundaries": boundaries(seq, args.documents) if args.mask != "causal" else [0, seq],
                     "parity": all_checks,
                     "trials": trial_results,
                 }
@@ -523,6 +752,9 @@ def main() -> None:
                             "scope": scope,
                             "mode": mode,
                             "input_sha256": data_hash,
+                            "document_boundaries": boundaries(seq, args.documents)
+                            if args.mask != "causal"
+                            else [0, seq],
                             "parity": all_checks,
                             "trials": graph_trials,
                             "steps_per_replay": repeats,

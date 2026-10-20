@@ -1,3 +1,19 @@
+diff --git a/tests/torch/distributed/all_gather_flashmask.py b/tests/torch/distributed/all_gather_flashmask.py
+index 672c682..da45c39 100644
+--- a/tests/torch/distributed/all_gather_flashmask.py
++++ b/tests/torch/distributed/all_gather_flashmask.py
+@@ -22 +22,2 @@ from cp_utils import (
+-from flashmask.cute.interface import _flash_attn_fwd, _flash_attn_bwd
++from flashmask.cute.ops.bwd import _flash_attn_bwd
++from flashmask.cute.ops.fwd import _flash_attn_fwd
+diff --git a/tests/torch/distributed/balanced_flashmask.py b/tests/torch/distributed/balanced_flashmask.py
+index 41ead50..95ad250 100644
+--- a/tests/torch/distributed/balanced_flashmask.py
++++ b/tests/torch/distributed/balanced_flashmask.py
+@@ -17 +17,2 @@ from cp_utils import all_gather_contiguous, reduce_scatter_any_axis_order
+-from flashmask.cute.interface import _flash_attn_bwd, _flash_attn_fwd
++from flashmask.cute.ops.bwd import _flash_attn_bwd
++from flashmask.cute.ops.fwd import _flash_attn_fwd
 diff --git a/tests/torch/distributed/overlap_flashmask.py b/tests/torch/distributed/overlap_flashmask.py
 index 9ea0f99..ecd2a43 100644
 --- a/tests/torch/distributed/overlap_flashmask.py

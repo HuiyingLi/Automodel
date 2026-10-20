@@ -1,6 +1,7 @@
 # FlashMask attention experiment (#4397)
 
-[Measured H100/GB200 results, plots and artifacts](results/README.md).
+[Initial dense-causal results](results/README.md) and
+[expanded CP, flexible-mask and packed-THD comparisons](results/CP_AND_MASKS.md).
 
 This branch adds the optional `backend.attn: flashmask` backend and binds its
 context-parallel process group for native Qwen3-MoE attention. It uses the
@@ -21,7 +22,8 @@ AutoModel head-tail token partition. CP must divide both Q and KV head counts
 (Qwen3-30B-A3B has 32 Q heads and 4 KV heads, allowing CP 1/2/4). All-to-all
 forward and backward, layout conversion and the FlashMask kernel are inside
 the timed attention call. This is not FlashMask's SM100 NCCL-GIN overlap path.
-TP, packed CP and other model families have not been validated.
+TP, production packed recipes and other model families have not been validated.
+The packed module benchmark below uses an explicit candidate adapter.
 
 ```yaml
 model:
@@ -115,7 +117,8 @@ summed across CP for this correctness check, outside timing. Seeded inputs,
 weights, random upstream gradients and global token order are shared across
 CP degrees; Magi uses its own native dispatch/key API. Input dispatch, reference
 execution, JIT compilation and parameter-gradient synchronization are outside
-timing. Sequence length means one global causal sequence, not per-rank length.
+timing. Sequence length is the global token count, not per-rank length. Without a mask
+profile it is one causal sequence; document profiles preserve separate boundaries.
 
 JSON records per-rank parity, input hash, actual dependency versions, hardware,
 source revision/diff, timing samples and trial summaries. Timings reduce the
@@ -128,6 +131,67 @@ The `sdpa` ring comparator uses PyTorch's public `context_parallel` manager;
 its buffer API requires a sequence buffer even when inputs are already
 partitioned, so a separate coordinate buffer is sharded/restored by that
 manager. Eager timings include that manager's bookkeeping.
+
+## CP algorithms, flexible masks and packed THD
+
+TE defaults to `--te-cp-comm p2p` (KV ring). Other choices are `all_gather`,
+`a2a` (Ulysses), and `a2a+p2p`. The hybrid comparator requires four ranks
+and explicitly forms 2×2 groups; it is a single-node test.
+
+`--mask documents` and `--mask prefix` select four unequal documents
+`[S/8, S/8, S/4, S/2]`. Prefix-LM makes each document's first half
+bidirectional. In the ordinary BSHD interface, FA3/TE use varlen decomposition
+at CP1; FA4 supports either `--fa4-mask-engine sparse` (including backward
+block-sparse metadata) or `varlen`. `--fa4-unpacked` disables GQA packing
+in the sparse comparator. Neither mode materializes a dense attention mask
+inside the timed call.
+
+`--packed --documents 4` or `16` selects actual THD input to the native Qwen
+module, resets positions per document and passes cumulative sequence lengths.
+The sixteen-document lengths repeat `[S/32, S/32, S/16, S/8]` four times.
+Use `--scope module --mask documents`. These aligned synthetic profiles have
+no physical padding; they do not establish arbitrary ragged/padded recipe support.
+
+~~~bash
+# TE ring with true THD packing. Swap the backend for flashmask or magi.
+NVTE_FLASH_ATTN=0 NVTE_FUSED_ATTN=1 python -m torch.distributed.run --standalone --nproc-per-node=2 tools/flashmask/benchmark.py --backend te --te-cp-comm p2p --packed --documents 16 --mask documents --scope module --seq 4096 8192 --execution graph --output results/packed_te_cp2.json
+
+# TE 2×2 hybrid; this is attention CP, not the MoE HybridEP dispatcher.
+NVTE_FLASH_ATTN=0 NVTE_FUSED_ATTN=1 python -m torch.distributed.run --standalone --nproc-per-node=4 tools/flashmask/benchmark.py --backend te --te-cp-comm a2a+p2p --packed --documents 4 --mask documents --scope module --seq 4096 8192 --execution graph --output results/packed_te_hybrid.json
+~~~
+
+On GB200 with the pinned FlashMask/CuTe 4.5.2 stack, the THD adapter exposed
+SM100 backward JIT errors from variables first assigned in dynamic branches.
+Apply [upstream-sm100-mask-init.patch](upstream-sm100-mask-init.patch) to that
+FlashMask checkout before reproducing these packed results. It moves loop
+bounds, constant mask flags and a static TMA copy descriptor before their
+dynamic guards; attention/masking and communication semantics are unchanged.
+This additional patch is distinct from the import-only CP wrapper patch.
+
+~~~bash
+git -C /path/to/FlashMask apply --unidiff-zero /path/to/Automodel/tools/flashmask/upstream-sm100-mask-init.patch
+~~~
+
+The packed FlashMask adapter in [packed.py](packed.py) adds a batch view around
+THD tensors and a differentiable sequence/head exchange using TE's per-document
+head-tail token partition. Its reordering and communication are timed.
+TE/Magi use native THD calls; FA3/FA4 use native varlen kernels. The adapter
+changes the benchmark's attention interface only; it keeps Qwen projections,
+normalization, RoPE and output projection. It does **not** enable packed SFT
+in the production backend.
+
+`flashmask_allgather` and `flashmask_cpb` import the pinned upstream Torch
+comparators through `--flashmask-source`. Apply the same import-only patch
+used by the overlap comparator. CPB additionally requires its native extension;
+build with upstream `FLASHMASK_BUILD=core+cpb` or its `flashmask/cp_balance`
+CMake target. The experiment uses the default 2048-token chunks: total sequence
+length must divide by `2048 * CP`, so 4K/CP4 has no CPB result.
+
+~~~bash
+NVTE_FLASH_ATTN=0 NVTE_FUSED_ATTN=1 python -m torch.distributed.run --standalone --nproc-per-node=2 tools/flashmask/benchmark.py --backend flashmask_cpb --flashmask-source /path/to/FlashMask --packed --documents 16 --mask documents --scope module --seq 4096 8192 --execution graph --output results/packed_flashmask_cpb.json
+
+python tools/flashmask/validate_masks.py
+~~~
 
 ## Validation
 

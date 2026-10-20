@@ -1,0 +1,39 @@
+diff --git a/flashmask/cute/flash_bwd_sm100.py b/flashmask/cute/flash_bwd_sm100.py
+index 7c99af7..0a6bb45 100644
+--- a/flashmask/cute/flash_bwd_sm100.py
++++ b/flashmask/cute/flash_bwd_sm100.py
+@@ -2629,0 +2630,2 @@ class FlashAttentionBackwardSm100:
++                has_lte = const_expr(flashmask_info.LTE_nblock_max is not None)
++                has_uts = const_expr(flashmask_info.UTS_nblock_max is not None)
+@@ -2634 +2635,0 @@ class FlashAttentionBackwardSm100:
+-                    has_uts = const_expr(flashmask_info.UTS_nblock_max is not None)
+@@ -2638 +2638,0 @@ class FlashAttentionBackwardSm100:
+-                    has_lte = const_expr(flashmask_info.LTE_nblock_max is not None)
+@@ -2695,0 +2696,3 @@ class FlashAttentionBackwardSm100:
++                # Keep the dynamic branch's loop bounds typed on both paths.
++                loop_start = m_block_min
++                loop_end = m_block_max
+@@ -2697,2 +2699,0 @@ class FlashAttentionBackwardSm100:
+-                    loop_start = m_block_min
+-                    loop_end = m_block_max
+@@ -2700 +2700,0 @@ class FlashAttentionBackwardSm100:
+-                        has_uts = const_expr(flashmask_info.UTS_nblock_max is not None)
+@@ -2735 +2734,0 @@ class FlashAttentionBackwardSm100:
+-                    has_lte = const_expr(flashmask_info.LTE_nblock_max is not None)
+@@ -4255,0 +4255,7 @@ class FlashAttentionBackwardSm100:
++                # The TMA copy descriptor is static; initialize it before the
++                # dynamic zero-block guard, including when that guard is false.
++                if const_expr(self.use_tma_store):
++                    # Upper hdim strips reuse the lower strip's thread rows.
++                    thr_copy_r2s_dKV = tiled_copy_r2s_dKV.get_slice(
++                        dp_idx % self.epi_threads_r2s
++                    )
+@@ -4274,8 +4279,0 @@ class FlashAttentionBackwardSm100:
+-                    else:
+-                        # With epi_num_strips == 2 the upper 64 threads serve the
+-                        # other hdim strip (its own SMEM buffer), so they reuse
+-                        # rows 0..63 of the tile: slice modulo the strip's threads.
+-                        thr_copy_r2s_dKV = tiled_copy_r2s_dKV.get_slice(
+-                            dp_idx % self.epi_threads_r2s
+-                        )
+-

@@ -10,6 +10,10 @@ is unchanged. Full raw logs, JSON samples, installation scripts and hardware
 manifests live on each cluster at
 `/lustre/fsw/portfolios/coreai/users/huiyingl/flashmask4397/runs`.
 
+The expanded [CP algorithms, flexible masks and packed-sequence report](CP_AND_MASKS.md)
+adds TE all-gather/all-to-all/hybrid and native FlashMask CP alternatives.
+The TE comparisons below refer specifically to the original TE p2p/ring baseline.
+
 ## Observed result
 
 For CUDA Graph module forward+backward, FlashMask is fastest among these
