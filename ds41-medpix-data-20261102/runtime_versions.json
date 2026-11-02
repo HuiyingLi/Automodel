@@ -1,0 +1,10 @@
+{
+  "transformers": "5.15.1",
+  "tokenizers": "0.23.1",
+  "pillow": "12.3.0",
+  "datasets": "5.0.1",
+  "pyarrow": "25.0.1",
+  "torchdata": "0.11.0",
+  "numpy": "2.1.0",
+  "torch": "2.14.0a0+4fdf77b940.nv26.8.63802676"
+}

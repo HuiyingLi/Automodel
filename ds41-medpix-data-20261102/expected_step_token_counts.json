@@ -1,0 +1,1208 @@
+{
+  "cp1_4k": [
+    {
+      "step": 0,
+      "epoch": 0,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 1,
+      "epoch": 0,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 2,
+      "epoch": 0,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 3,
+      "epoch": 0,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 4,
+      "epoch": 0,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 5,
+      "epoch": 0,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    },
+    {
+      "step": 6,
+      "epoch": 0,
+      "num_tokens_per_step": 244244,
+      "num_label_tokens": 76357
+    },
+    {
+      "step": 7,
+      "epoch": 0,
+      "num_tokens_per_step": 244058,
+      "num_label_tokens": 66681
+    },
+    {
+      "step": 8,
+      "epoch": 0,
+      "num_tokens_per_step": 244717,
+      "num_label_tokens": 79277
+    },
+    {
+      "step": 9,
+      "epoch": 0,
+      "num_tokens_per_step": 242997,
+      "num_label_tokens": 67560
+    },
+    {
+      "step": 10,
+      "epoch": 0,
+      "num_tokens_per_step": 243435,
+      "num_label_tokens": 64544
+    },
+    {
+      "step": 11,
+      "epoch": 0,
+      "num_tokens_per_step": 245207,
+      "num_label_tokens": 84699
+    },
+    {
+      "step": 12,
+      "epoch": 0,
+      "num_tokens_per_step": 245206,
+      "num_label_tokens": 80959
+    },
+    {
+      "step": 13,
+      "epoch": 0,
+      "num_tokens_per_step": 243737,
+      "num_label_tokens": 78273
+    },
+    {
+      "step": 14,
+      "epoch": 0,
+      "num_tokens_per_step": 244010,
+      "num_label_tokens": 69617
+    },
+    {
+      "step": 15,
+      "epoch": 0,
+      "num_tokens_per_step": 244486,
+      "num_label_tokens": 76784
+    },
+    {
+      "step": 16,
+      "epoch": 0,
+      "num_tokens_per_step": 244765,
+      "num_label_tokens": 76319
+    },
+    {
+      "step": 17,
+      "epoch": 0,
+      "num_tokens_per_step": 244469,
+      "num_label_tokens": 75752
+    },
+    {
+      "step": 18,
+      "epoch": 0,
+      "num_tokens_per_step": 243199,
+      "num_label_tokens": 59860
+    },
+    {
+      "step": 19,
+      "epoch": 0,
+      "num_tokens_per_step": 244664,
+      "num_label_tokens": 78795
+    },
+    {
+      "step": 20,
+      "epoch": 0,
+      "num_tokens_per_step": 244507,
+      "num_label_tokens": 79644
+    },
+    {
+      "step": 21,
+      "epoch": 0,
+      "num_tokens_per_step": 245054,
+      "num_label_tokens": 89668
+    },
+    {
+      "step": 22,
+      "epoch": 1,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 23,
+      "epoch": 1,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 24,
+      "epoch": 1,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 25,
+      "epoch": 1,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 26,
+      "epoch": 1,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 27,
+      "epoch": 1,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    },
+    {
+      "step": 28,
+      "epoch": 1,
+      "num_tokens_per_step": 244244,
+      "num_label_tokens": 76357
+    },
+    {
+      "step": 29,
+      "epoch": 1,
+      "num_tokens_per_step": 244058,
+      "num_label_tokens": 66681
+    },
+    {
+      "step": 30,
+      "epoch": 1,
+      "num_tokens_per_step": 244717,
+      "num_label_tokens": 79277
+    },
+    {
+      "step": 31,
+      "epoch": 1,
+      "num_tokens_per_step": 242997,
+      "num_label_tokens": 67560
+    },
+    {
+      "step": 32,
+      "epoch": 1,
+      "num_tokens_per_step": 243435,
+      "num_label_tokens": 64544
+    },
+    {
+      "step": 33,
+      "epoch": 1,
+      "num_tokens_per_step": 245207,
+      "num_label_tokens": 84699
+    },
+    {
+      "step": 34,
+      "epoch": 1,
+      "num_tokens_per_step": 245206,
+      "num_label_tokens": 80959
+    },
+    {
+      "step": 35,
+      "epoch": 1,
+      "num_tokens_per_step": 243737,
+      "num_label_tokens": 78273
+    },
+    {
+      "step": 36,
+      "epoch": 1,
+      "num_tokens_per_step": 244010,
+      "num_label_tokens": 69617
+    },
+    {
+      "step": 37,
+      "epoch": 1,
+      "num_tokens_per_step": 244486,
+      "num_label_tokens": 76784
+    },
+    {
+      "step": 38,
+      "epoch": 1,
+      "num_tokens_per_step": 244765,
+      "num_label_tokens": 76319
+    },
+    {
+      "step": 39,
+      "epoch": 1,
+      "num_tokens_per_step": 244469,
+      "num_label_tokens": 75752
+    },
+    {
+      "step": 40,
+      "epoch": 1,
+      "num_tokens_per_step": 243199,
+      "num_label_tokens": 59860
+    },
+    {
+      "step": 41,
+      "epoch": 1,
+      "num_tokens_per_step": 244664,
+      "num_label_tokens": 78795
+    },
+    {
+      "step": 42,
+      "epoch": 1,
+      "num_tokens_per_step": 244507,
+      "num_label_tokens": 79644
+    },
+    {
+      "step": 43,
+      "epoch": 1,
+      "num_tokens_per_step": 245054,
+      "num_label_tokens": 89668
+    },
+    {
+      "step": 44,
+      "epoch": 2,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 45,
+      "epoch": 2,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 46,
+      "epoch": 2,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 47,
+      "epoch": 2,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 48,
+      "epoch": 2,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 49,
+      "epoch": 2,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    }
+  ],
+  "cp2_4k": [
+    {
+      "step": 0,
+      "epoch": 0,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 1,
+      "epoch": 0,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 2,
+      "epoch": 0,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 3,
+      "epoch": 0,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 4,
+      "epoch": 0,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 5,
+      "epoch": 0,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    },
+    {
+      "step": 6,
+      "epoch": 0,
+      "num_tokens_per_step": 244244,
+      "num_label_tokens": 76357
+    },
+    {
+      "step": 7,
+      "epoch": 0,
+      "num_tokens_per_step": 244058,
+      "num_label_tokens": 66681
+    },
+    {
+      "step": 8,
+      "epoch": 0,
+      "num_tokens_per_step": 244717,
+      "num_label_tokens": 79277
+    },
+    {
+      "step": 9,
+      "epoch": 0,
+      "num_tokens_per_step": 242997,
+      "num_label_tokens": 67560
+    },
+    {
+      "step": 10,
+      "epoch": 0,
+      "num_tokens_per_step": 243435,
+      "num_label_tokens": 64544
+    },
+    {
+      "step": 11,
+      "epoch": 0,
+      "num_tokens_per_step": 245207,
+      "num_label_tokens": 84699
+    },
+    {
+      "step": 12,
+      "epoch": 0,
+      "num_tokens_per_step": 245206,
+      "num_label_tokens": 80959
+    },
+    {
+      "step": 13,
+      "epoch": 0,
+      "num_tokens_per_step": 243737,
+      "num_label_tokens": 78273
+    },
+    {
+      "step": 14,
+      "epoch": 0,
+      "num_tokens_per_step": 244010,
+      "num_label_tokens": 69617
+    },
+    {
+      "step": 15,
+      "epoch": 0,
+      "num_tokens_per_step": 244486,
+      "num_label_tokens": 76784
+    },
+    {
+      "step": 16,
+      "epoch": 0,
+      "num_tokens_per_step": 244765,
+      "num_label_tokens": 76319
+    },
+    {
+      "step": 17,
+      "epoch": 0,
+      "num_tokens_per_step": 244469,
+      "num_label_tokens": 75752
+    },
+    {
+      "step": 18,
+      "epoch": 0,
+      "num_tokens_per_step": 243199,
+      "num_label_tokens": 59860
+    },
+    {
+      "step": 19,
+      "epoch": 0,
+      "num_tokens_per_step": 244664,
+      "num_label_tokens": 78795
+    },
+    {
+      "step": 20,
+      "epoch": 0,
+      "num_tokens_per_step": 244507,
+      "num_label_tokens": 79644
+    },
+    {
+      "step": 21,
+      "epoch": 0,
+      "num_tokens_per_step": 245054,
+      "num_label_tokens": 89668
+    },
+    {
+      "step": 22,
+      "epoch": 1,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 23,
+      "epoch": 1,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 24,
+      "epoch": 1,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 25,
+      "epoch": 1,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 26,
+      "epoch": 1,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 27,
+      "epoch": 1,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    },
+    {
+      "step": 28,
+      "epoch": 1,
+      "num_tokens_per_step": 244244,
+      "num_label_tokens": 76357
+    },
+    {
+      "step": 29,
+      "epoch": 1,
+      "num_tokens_per_step": 244058,
+      "num_label_tokens": 66681
+    },
+    {
+      "step": 30,
+      "epoch": 1,
+      "num_tokens_per_step": 244717,
+      "num_label_tokens": 79277
+    },
+    {
+      "step": 31,
+      "epoch": 1,
+      "num_tokens_per_step": 242997,
+      "num_label_tokens": 67560
+    },
+    {
+      "step": 32,
+      "epoch": 1,
+      "num_tokens_per_step": 243435,
+      "num_label_tokens": 64544
+    },
+    {
+      "step": 33,
+      "epoch": 1,
+      "num_tokens_per_step": 245207,
+      "num_label_tokens": 84699
+    },
+    {
+      "step": 34,
+      "epoch": 1,
+      "num_tokens_per_step": 245206,
+      "num_label_tokens": 80959
+    },
+    {
+      "step": 35,
+      "epoch": 1,
+      "num_tokens_per_step": 243737,
+      "num_label_tokens": 78273
+    },
+    {
+      "step": 36,
+      "epoch": 1,
+      "num_tokens_per_step": 244010,
+      "num_label_tokens": 69617
+    },
+    {
+      "step": 37,
+      "epoch": 1,
+      "num_tokens_per_step": 244486,
+      "num_label_tokens": 76784
+    },
+    {
+      "step": 38,
+      "epoch": 1,
+      "num_tokens_per_step": 244765,
+      "num_label_tokens": 76319
+    },
+    {
+      "step": 39,
+      "epoch": 1,
+      "num_tokens_per_step": 244469,
+      "num_label_tokens": 75752
+    },
+    {
+      "step": 40,
+      "epoch": 1,
+      "num_tokens_per_step": 243199,
+      "num_label_tokens": 59860
+    },
+    {
+      "step": 41,
+      "epoch": 1,
+      "num_tokens_per_step": 244664,
+      "num_label_tokens": 78795
+    },
+    {
+      "step": 42,
+      "epoch": 1,
+      "num_tokens_per_step": 244507,
+      "num_label_tokens": 79644
+    },
+    {
+      "step": 43,
+      "epoch": 1,
+      "num_tokens_per_step": 245054,
+      "num_label_tokens": 89668
+    },
+    {
+      "step": 44,
+      "epoch": 2,
+      "num_tokens_per_step": 244296,
+      "num_label_tokens": 71865
+    },
+    {
+      "step": 45,
+      "epoch": 2,
+      "num_tokens_per_step": 244773,
+      "num_label_tokens": 79597
+    },
+    {
+      "step": 46,
+      "epoch": 2,
+      "num_tokens_per_step": 245199,
+      "num_label_tokens": 75389
+    },
+    {
+      "step": 47,
+      "epoch": 2,
+      "num_tokens_per_step": 244122,
+      "num_label_tokens": 67960
+    },
+    {
+      "step": 48,
+      "epoch": 2,
+      "num_tokens_per_step": 244873,
+      "num_label_tokens": 95299
+    },
+    {
+      "step": 49,
+      "epoch": 2,
+      "num_tokens_per_step": 245110,
+      "num_label_tokens": 81414
+    }
+  ],
+  "cp16_64k": [
+    {
+      "step": 0,
+      "epoch": 0,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 1,
+      "epoch": 0,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 2,
+      "epoch": 0,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 3,
+      "epoch": 0,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 4,
+      "epoch": 0,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 5,
+      "epoch": 1,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 6,
+      "epoch": 1,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 7,
+      "epoch": 1,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 8,
+      "epoch": 1,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 9,
+      "epoch": 1,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 10,
+      "epoch": 2,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 11,
+      "epoch": 2,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 12,
+      "epoch": 2,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 13,
+      "epoch": 2,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 14,
+      "epoch": 2,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 15,
+      "epoch": 3,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 16,
+      "epoch": 3,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 17,
+      "epoch": 3,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 18,
+      "epoch": 3,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 19,
+      "epoch": 3,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 20,
+      "epoch": 4,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 21,
+      "epoch": 4,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 22,
+      "epoch": 4,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 23,
+      "epoch": 4,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 24,
+      "epoch": 4,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 25,
+      "epoch": 5,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 26,
+      "epoch": 5,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 27,
+      "epoch": 5,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 28,
+      "epoch": 5,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 29,
+      "epoch": 5,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 30,
+      "epoch": 6,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 31,
+      "epoch": 6,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 32,
+      "epoch": 6,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 33,
+      "epoch": 6,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 34,
+      "epoch": 6,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 35,
+      "epoch": 7,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 36,
+      "epoch": 7,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 37,
+      "epoch": 7,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 38,
+      "epoch": 7,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 39,
+      "epoch": 7,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 40,
+      "epoch": 8,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 41,
+      "epoch": 8,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 42,
+      "epoch": 8,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 43,
+      "epoch": 8,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 44,
+      "epoch": 8,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 45,
+      "epoch": 9,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 46,
+      "epoch": 9,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 47,
+      "epoch": 9,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 48,
+      "epoch": 9,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 49,
+      "epoch": 9,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 50,
+      "epoch": 10,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 51,
+      "epoch": 10,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 52,
+      "epoch": 10,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 53,
+      "epoch": 10,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 54,
+      "epoch": 10,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 55,
+      "epoch": 11,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 56,
+      "epoch": 11,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 57,
+      "epoch": 11,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 58,
+      "epoch": 11,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 59,
+      "epoch": 11,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 60,
+      "epoch": 12,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 61,
+      "epoch": 12,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 62,
+      "epoch": 12,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 63,
+      "epoch": 12,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 64,
+      "epoch": 12,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 65,
+      "epoch": 13,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 66,
+      "epoch": 13,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 67,
+      "epoch": 13,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 68,
+      "epoch": 13,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 69,
+      "epoch": 13,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 70,
+      "epoch": 14,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 71,
+      "epoch": 14,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 72,
+      "epoch": 14,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 73,
+      "epoch": 14,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 74,
+      "epoch": 14,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 75,
+      "epoch": 15,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 76,
+      "epoch": 15,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 77,
+      "epoch": 15,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 78,
+      "epoch": 15,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 79,
+      "epoch": 15,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 80,
+      "epoch": 16,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 81,
+      "epoch": 16,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 82,
+      "epoch": 16,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 83,
+      "epoch": 16,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 84,
+      "epoch": 16,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 85,
+      "epoch": 17,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 86,
+      "epoch": 17,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 87,
+      "epoch": 17,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 88,
+      "epoch": 17,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 89,
+      "epoch": 17,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 90,
+      "epoch": 18,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 91,
+      "epoch": 18,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 92,
+      "epoch": 18,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 93,
+      "epoch": 18,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 94,
+      "epoch": 18,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    },
+    {
+      "step": 95,
+      "epoch": 19,
+      "num_tokens_per_step": 995045,
+      "num_label_tokens": 332660
+    },
+    {
+      "step": 96,
+      "epoch": 19,
+      "num_tokens_per_step": 994756,
+      "num_label_tokens": 268823
+    },
+    {
+      "step": 97,
+      "epoch": 19,
+      "num_tokens_per_step": 994567,
+      "num_label_tokens": 241091
+    },
+    {
+      "step": 98,
+      "epoch": 19,
+      "num_tokens_per_step": 994383,
+      "num_label_tokens": 232453
+    },
+    {
+      "step": 99,
+      "epoch": 19,
+      "num_tokens_per_step": 994698,
+      "num_label_tokens": 304673
+    }
+  ]
+}

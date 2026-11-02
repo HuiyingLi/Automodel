@@ -1,0 +1,33 @@
+{
+  "revision": "69eb219d477ab8699296da1fd6b89beb768042d3",
+  "files": {
+    "data/train-00000-of-00006.parquet": {
+      "bytes": 412558738,
+      "sha256": "08e0d13a3e88890ca8eafda72c1a87c57bf00ae5cbba36446032db786202bde6"
+    },
+    "data/train-00001-of-00006.parquet": {
+      "bytes": 411501182,
+      "sha256": "c2a4f649c5b1e573de2c07e2a305f1c64f6c5095e00de2eef383853f076c48cb"
+    },
+    "data/train-00002-of-00006.parquet": {
+      "bytes": 412026847,
+      "sha256": "972c2fac3755d555e511c9aafa7ecc11d41482493047dbe1680a98df19e5fd8c"
+    },
+    "data/train-00003-of-00006.parquet": {
+      "bytes": 410770866,
+      "sha256": "e2594f2f0dd4f0a48e9c3be46b440d56806469b7770e0f16e0a12950787185ef"
+    },
+    "data/train-00004-of-00006.parquet": {
+      "bytes": 417192978,
+      "sha256": "2e1989e2de580462404c39bb7a09ba1767a02fb2fc3d241dd77675888634b496"
+    },
+    "data/train-00005-of-00006.parquet": {
+      "bytes": 409406488,
+      "sha256": "c86a016980f95314dbe81f0d4294bd3093b6afac295ae41a6e33c2e77b4c4ea0"
+    },
+    "data/validation-00000-of-00001.parquet": {
+      "bytes": 393419670,
+      "sha256": "74bb254d2533dc8daf5be0069222c37ec0b53d4019c6f05c8d4c4e781a437d5d"
+    }
+  }
+}

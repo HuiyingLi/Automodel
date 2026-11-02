@@ -1,0 +1,154 @@
+dataset:
+  repo_id: mmoukouba/MedPix-VQA
+  revision: 69eb219d477ab8699296da1fd6b89beb768042d3
+  train_rows: 17420
+  validation_rows: 3080
+  train_distinct_encoded_images_sha256: 1742
+  validation_distinct_encoded_images_sha256: 308
+  qa_rows_per_train_image: 10
+  split_used: train
+  validation_used: false
+  image_column: image_id
+  question_column: question
+  answer_column: answer
+  unused_columns:
+  - mode
+  - case_id
+  conversation:
+  - role: user
+    content:
+    - type: image
+      source_column: image_id
+    - type: text
+      source_column: question
+  - role: assistant
+    content:
+    - type: text
+      source_column: answer
+processor:
+  class: nemo_automodel.components.models.deepseek_v41.processing.DeepseekV41Processor
+  repo_id: deepseek-ai/DeepSeek-V4.1-Flash
+  revision: df42c109f1defefcbfcedbe7d905718a12266e40
+  patch_size: 14
+  downsample_ratio: 3
+  max_image_tokens: 1024
+  min_pixels: 295936
+  max_wh_ratio: null
+  image_mode: RGB
+  padding_color:
+  - 127
+  - 127
+  - 127
+  normalization: (pixel / 255 - 0.5) / 0.5, then BF16
+  augmentations: none
+  image_span_tokens: ceil(vit_h / 3) * (ceil(vit_w / 3) + 1) + 2
+  special_token_ids:
+    bos: 0
+    eos: 1
+    pad: 1
+    user: 128803
+    assistant: 128804
+    think_end: 128822
+    image: 129264
+  chat_rendering: native DeepseekV41Processor.apply_chat_template; image then two
+    newlines then question; no extra system prompt
+  unexpanded_single_qa_template: '<｜begin▁of▁sentence｜><｜User｜><｜deepseek_image｜>
+
+
+    {question}<｜Assistant｜></think>{answer}<｜end▁of▁sentence｜>'
+ordering:
+  raw_shuffle: HF Dataset.shuffle(seed=1234), once
+  pack_shuffle: random.Random(1234).shuffle(native_bins), once
+  trim: drop the shuffled tail bins to a whole multiple of GBS
+  epoch_shuffle: false
+  pack_index: (optimizer_step * GBS + accumulation_microbatch * DP + dp_rank) % retained_pack_count
+  indices_in_manifest: indices into the raw shuffled dataset, not original parquet
+    row indices
+label_and_boundary_processing:
+  label_builder: build_labels_from_template
+  ignore_index: -100
+  per_document_shift: input_ids[:-1], labels[1:] before concatenation
+  per_document_padding: pad token ID 1; ignored labels -100
+  position_ids: restart from 0 for each document; per-document padding included in
+    padded length
+  attention: packed document isolation; no cross-document attention
+  image_order: original document order, image before question; no deduplication
+  supervised_region: assistant answer and first EOS inclusive; assistant role marker
+    and </think>, user prompt, image tokens, padding are ignored (-100)
+  pretokenized_max_retries: 10
+  packed_max_retries: 10
+experiments:
+  cp1_cp2_4k:
+    source_commit: e08452c1a50a15098f3dd9145a1fcac346d2c474
+    world: 64
+    ep: 64
+    cp:
+    - 1
+    - 2
+    dp:
+    - 64
+    - 32
+    gbs: 64
+    lbs: 1
+    ga:
+    - 1
+    - 2
+    pack_size: 4096
+    max_length_before_shift: 4097
+    sequence_alignment: 4
+    packing_ratio: 0.95
+    balance_media_tokens: true
+    drop_long_samples: true
+    truncate: false
+    inject_fake_images: false
+    native_packs: 1418
+    dropped_tail_packs: 10
+    retained_packs: 1408
+    retained_qa_rows: 17326
+    steps_per_epoch: 22
+    updates: 50
+    manifest: packs_4096_cp1_cp2.json
+    manifest_sha256: 97b083cdde505ff8f5cb09cbbca7df378b97ddbfd21421a2613d7b675c3e6eff
+  cp16_64k:
+    source_commit: 6de2f5b2542a3faf5bc5e2849b853e20a4d04296
+    world: 64
+    ep: 64
+    cp: 16
+    dp: 4
+    gbs: 16
+    lbs: 1
+    ga: 4
+    pack_size: 65536
+    max_length_before_shift: 65537
+    sequence_alignment: 32
+    packing_ratio: 0.95
+    balance_media_tokens: true
+    drop_long_samples: true
+    truncate: false
+    inject_fake_images: false
+    native_packs: 92
+    dropped_tail_packs: 12
+    retained_packs: 80
+    retained_qa_rows: 15778
+    retained_distinct_images: 1742
+    qa_rows_per_pack_min: 40
+    qa_rows_per_pack_max: 277
+    qa_rows_per_pack_mean: 197.225
+    steps_per_epoch: 5
+    updates: 100
+    epochs: 20
+    supervised_tokens_per_epoch: 1379700
+    manifest: packs_65536_cp16.json
+    manifest_sha256: a491672ba0890026d435052beb2b30a9cef67fe961fdb0e7492e3804f155972f
+runtime_versions:
+  transformers: 5.15.1
+  tokenizers: 0.23.1
+  pillow: 12.3.0
+  datasets: 5.0.1
+  pyarrow: 25.0.1
+  torchdata: 0.11.0
+  numpy: 2.1.0
+  torch: 2.14.0a0+4fdf77b940.nv26.8.63802676
+logged_token_count_semantics: num_label_tokens counts labels != -100 before CP sharding.
+  num_tokens_per_step is the native throughput counter that removes only trailing
+  ignored-label positions; it can include prompt and per-document alignment padding.

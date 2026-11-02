@@ -1,0 +1,49 @@
+# Actual data-related recipe fields; only machine-specific paths were made portable.
+# ShuffledMedpixConfig is experiment-local: native make_medpix_dataset(...).shuffle(seed=1234).
+# For exact replay, load the supplied frozen bins and alignment; YAML alone does not freeze bin assignments.
+seed: 1234
+dataset:
+  _target_: experiment_data.ShuffledMedpixConfig
+  path_or_dataset: /path/to/medpix-snapshot-69eb219d477ab8699296da1fd6b89beb768042d3
+  split: train
+  seed: 1234
+  truncate: false
+  inject_fake_images: false
+processor:
+  _target_: nemo_automodel.components.models.deepseek_v41.processing.DeepseekV41Processor.from_pretrained
+  pretrained_model_name_or_path: deepseek-ai/DeepSeek-V4.1-Flash
+  revision: df42c109f1defefcbfcedbe7d905718a12266e40
+  trust_remote_code: false
+packed_sequence:
+  pretokenize: true
+  max_length: 65537
+  pack_size: 65536
+  collate_max_length: 65536
+  packing_ratio: 0.95
+  drop_long_samples: true
+  balance_media_tokens: true
+  packing_format: thd
+dataloader:
+  _target_: torchdata.stateful_dataloader.StatefulDataLoader
+  num_workers: 4
+  persistent_workers: true
+  pin_memory: true
+  shuffle: false
+  drop_last: true
+  prefetch_factor: 1
+step_scheduler:
+  global_batch_size: 16
+  local_batch_size: 1
+  ckpt_every_steps: 1000
+  save_checkpoint_every_epoch: false
+  val_every_steps: 1000
+  log_remote_every_steps: 1
+  gc_every_steps: 10
+  num_epochs: 100
+  max_steps: 100
+loss_fn:
+  _target_: nemo_automodel.components.loss.chunked_ce.ChunkedCrossEntropy
+  chunk_len: 512
+  compile: true
+validation_dataset: none
+validation_dataloader: none
